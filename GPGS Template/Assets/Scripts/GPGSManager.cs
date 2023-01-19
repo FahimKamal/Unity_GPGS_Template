@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SocialPlatforms;
@@ -11,6 +10,8 @@ public class GPGSManager : MonoBehaviour
     private PlayGamesClientConfiguration _clientConfiguration;
     public TextMeshProUGUI statusTxt;
     public TextMeshProUGUI descriptionTxt;
+
+    public GameObject homeBtn;
 
     private void Start()
     {
@@ -45,6 +46,9 @@ public class GPGSManager : MonoBehaviour
                     statusTxt.text = "Successfully Authenticated";
                     descriptionTxt.text = "Hello " + Social.localUser.userName + " " +
                                           "You have an ID of " + Social.localUser.id;
+                    
+                    // Activate the home Button
+                    homeBtn.SetActive(true);
                 }
                 else
                 {
@@ -71,6 +75,7 @@ public class GPGSManager : MonoBehaviour
         PlayGamesPlatform.Instance.SignOut();
         statusTxt.text = "Signed Out";
         descriptionTxt.text = "";
+        homeBtn.SetActive(false);
     }
 
     public void ExitGame()
