@@ -60,7 +60,7 @@ public class GPGSManager : MonoBehaviour
     /// </summary>
     public void BasicSignInBtn()
     {
-        SignIntoGPGS(SignInInteractivity.NoPrompt, _clientConfiguration);
+        SignIntoGPGS(SignInInteractivity.CanPromptAlways, _clientConfiguration);
     }
 
     /// <summary>
@@ -71,5 +71,10 @@ public class GPGSManager : MonoBehaviour
         PlayGamesPlatform.Instance.SignOut();
         statusTxt.text = "Signed Out";
         descriptionTxt.text = "";
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }
