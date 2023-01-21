@@ -6,6 +6,9 @@ public class Achievement : MonoBehaviour
 {
     public TextMeshProUGUI logTxt;
 
+    /// <summary>
+    /// Show achievements UI list from play services.
+    /// </summary>
     public void ShowAchievementsUI()
     {
         Social.ShowAchievementsUI();
@@ -114,32 +117,32 @@ public class Achievement : MonoBehaviour
 
     public void GrantAchievementBtn()
     {
-        DoGrantAchievement(GPGSIds.achievement_unlock_achievement);
+        DoGrantAchievement(GPGSIds.ACHIEVEMENT_UNLOCK_ACHIEVEMENT);
     }
     
     public void GrantIncrementalBtn()
     {
-        DoIncrementalAchievement(GPGSIds.achievement_incremental_achievement);
+        DoIncrementalAchievement(GPGSIds.ACHIEVEMENT_INCREMENTAL_ACHIEVEMENT);
     }
 
     public void RevealAchievementBtn()
     {
-        DoRevealAchievement(GPGSIds.achievement_hidden_unlock_achievement);
+        DoRevealAchievement(GPGSIds.ACHIEVEMENT_HIDDEN_UNLOCK_ACHIEVEMENT);
     }
     
     public void RevealIncrementalAchievementBtn()
     {
-        DoRevealAchievement(GPGSIds.achievement_hidden_incremental_achievement);
+        DoRevealAchievement(GPGSIds.ACHIEVEMENT_HIDDEN_INCREMENTAL_ACHIEVEMENT);
     }
 
     public void GrantHiddenAchievementBtn()
     {
-        DoGrantAchievement(GPGSIds.achievement_hidden_unlock_achievement);
+        DoGrantAchievement(GPGSIds.ACHIEVEMENT_HIDDEN_UNLOCK_ACHIEVEMENT);
     }
 
     public void HiddenIncrementalAchievementBtn()
     {
-        DoIncrementalAchievement(GPGSIds.achievement_hidden_incremental_achievement);
+        DoIncrementalAchievement(GPGSIds.ACHIEVEMENT_HIDDEN_INCREMENTAL_ACHIEVEMENT);
     }
     
     
