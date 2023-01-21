@@ -11,6 +11,10 @@ public class Achievement : MonoBehaviour
         Social.ShowAchievementsUI();
     }
 
+    /// <summary>
+    /// Grant a Achievement to the player. (Reveal ro hidden)
+    /// </summary>
+    /// <param name="achievement">Achievement ID. Achievement can be of reveal or hidden type.</param>
     private void DoGrantAchievement(string achievement)
     {
         Social.ReportProgress(achievement, 
@@ -30,6 +34,10 @@ public class Achievement : MonoBehaviour
             });
     }
 
+    /// <summary>
+    /// Reveal hidden achievement to player. Achievement can be both incremental ro non-incremental.
+    /// </summary>
+    /// <param name="achievement">Achievement ID</param>
     private void DoRevealAchievement(string achievement)
     {
         Social.ReportProgress(achievement, 
@@ -49,6 +57,10 @@ public class Achievement : MonoBehaviour
             });
     }
 
+    /// <summary>
+    /// Grant the incremental achievement to the player. Can be both reveal or hidden type.
+    /// </summary>
+    /// <param name="achievement">Achievement ID</param>
     private void DoIncrementalAchievement(string achievement)
     {
         PlayGamesPlatform platform = (PlayGamesPlatform)Social.Active;
@@ -70,6 +82,9 @@ public class Achievement : MonoBehaviour
             });
     }
 
+    /// <summary>
+    /// List the achievements of the game and state of them. Can be modified to do lot more.
+    /// </summary>
     public void ListAchievements()
     {
         Social.LoadAchievements(achievements =>
@@ -77,11 +92,14 @@ public class Achievement : MonoBehaviour
             logTxt.text = "Loaded Achievements" + achievements.Length;
             foreach (var ach in achievements)
             {
-                logTxt.text += "/n" + " " + ach.completed;
+                logTxt.text += "\n" + " " + ach.completed;
             }
         });
     }
     
+    /// <summary>
+    /// List descriptions of all achievements in the game. Can be modified to do lot more.
+    /// </summary>
     public void ListDescriptions()
     {
         Social.LoadAchievementDescriptions(achievements =>
@@ -89,7 +107,7 @@ public class Achievement : MonoBehaviour
             logTxt.text = "Loaded Achievements" + achievements.Length;
             foreach (var ach in achievements)
             {
-                logTxt.text += "/n" + " " + ach.title;
+                logTxt.text += "\n" + " " + ach.title;
             }
         });
     }
