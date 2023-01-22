@@ -1,28 +1,35 @@
+using System;
 using UnityEngine;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
+using GooglePlayGames.BasicApi.SavedGame;
 using TMPro;
+using Debug = UnityEngine.Debug;
 
 public class GPGSManager : MonoBehaviour
 {
-    private PlayGamesClientConfiguration _clientConfiguration;
+    private PlayGamesClientConfiguration mClientConfiguration;
     public TextMeshProUGUI statusTxt;
     public TextMeshProUGUI descriptionTxt;
 
     public GameObject homeBtn;
 
+    public SavedGamesUI savedGamesUI;
+
     private void Start()
     {
         ConfigureGPGS();
-        SignIntoGPGS(SignInInteractivity.CanPromptOnce, _clientConfiguration);
+        SignIntoGPGS(SignInInteractivity.CanPromptOnce, mClientConfiguration);
     }
 
     /// <summary>
     /// Configure the GPGS script.
     /// </summary>
-    internal void ConfigureGPGS()
+    private void ConfigureGPGS()
     {
-        _clientConfiguration = new PlayGamesClientConfiguration.Builder().Build();
+        mClientConfiguration = new PlayGamesClientConfiguration.Builder()
+            .EnableSavedGames()
+            .Build();
     }
 
     /// <summary>
@@ -31,7 +38,7 @@ public class GPGSManager : MonoBehaviour
     /// <param name="interactivity">Option on how to handle the signin process.(CanPromptOnce, CanPromptAlways, NoPrompt)
     /// </param>
     /// <param name="configuration"></param>
-    internal void SignIntoGPGS(SignInInteractivity interactivity, PlayGamesClientConfiguration configuration)
+    private void SignIntoGPGS(SignInInteractivity interactivity, PlayGamesClientConfiguration configuration)
     {
         PlayGamesPlatform.InitializeInstance(configuration);
         PlayGamesPlatform.Activate();
@@ -62,7 +69,7 @@ public class GPGSManager : MonoBehaviour
     /// </summary>
     public void BasicSignInBtn()
     {
-        SignIntoGPGS(SignInInteractivity.CanPromptAlways, _clientConfiguration);
+        SignIntoGPGS(SignInInteractivity.CanPromptAlways, mClientConfiguration);
     }
 
     /// <summary>
@@ -80,4 +87,104 @@ public class GPGSManager : MonoBehaviour
     {
         Application.Quit();
     }
+
+    #region SavedGames
+
+    private bool mIsSaving;
+
+    public void OpenSave(bool saving)
+    {
+        savedGamesUI.PrintLog("Open Saved Clicked");
+        
+        if (Social.localUser.authenticated)
+        {
+            savedGamesUI.PrintLog("User is authenticated");
+            
+            mIsSaving = saving;
+            ((PlayGamesPlatform)Social.Active).SavedGame.OpenWithAutomaticConflictResolution(
+                "SaveGameFileName",
+                DataSource.ReadCacheOrNetwork,
+                ConflictResolutionStrategy.UseLongestPlaytime,
+                SaveGameOpen
+                );
+        }
+    }
+
+    private void SaveGameOpen(SavedGameRequestStatus status, ISavedGameMetadata meta)
+    {
+        if (status == SavedGameRequestStatus.Success)
+        {
+            savedGamesUI.PrintLog("Status successful.");
+            if (mIsSaving) // are saving
+            {
+                savedGamesUI.PrintLog("Attempting to save...");
+                // convert datatype to byte array
+                byte[] myData = System.Text.Encoding.ASCII.GetBytes(GetSaveString());
+                
+                // update metadata 
+                var updateForMetadata = new SavedGameMetadataUpdate.Builder().WithUpdatedDescription("I have updated my game at: " + DateTime.Now).Build();
+                
+                // commit save game
+                ((PlayGamesPlatform)Social.Active).SavedGame.CommitUpdate(meta, updateForMetadata, myData, SaveCallBack);
+            }
+            else // are loading
+            {
+                savedGamesUI.PrintLog("Attempting to load...");
+                ((PlayGamesPlatform)Social.Active).SavedGame.ReadBinaryData(meta, LoadCallBack);
+            }
+        }
+        else
+        {
+            savedGamesUI.PrintLog("Status unsuccessful, failed to open save data.");
+        }
+    }
+
+    private void LoadCallBack(SavedGameRequestStatus status, byte[] data)
+    {
+        if (status == SavedGameRequestStatus.Success)
+        {
+            savedGamesUI.PrintLog("Load successful, attempting to print...");
+            var loadedData = System.Text.Encoding.ASCII.GetString(data);
+            // Fahim|25
+            LoadSavedString(loadedData);
+        }
+    }
+
+    private void LoadSavedString(string cloudData)
+    {
+        var cloudStringArr = cloudData.Split("|");
+
+        savedGamesUI.playerName = cloudStringArr[0];
+        savedGamesUI.age = int.Parse(cloudStringArr[1]);
+        
+        savedGamesUI.PrintOutput();
+    }
+
+    private string GetSaveString()
+    {
+        var dataToSave = "";
+
+        dataToSave += savedGamesUI.playerName;
+        dataToSave += "|";
+        dataToSave += savedGamesUI.age;
+        
+        // Fahim|25
+        return dataToSave;
+    }
+
+    private void SaveCallBack(SavedGameRequestStatus status, ISavedGameMetadata meta)
+    {
+        if (status == SavedGameRequestStatus.Success)
+        {
+            savedGamesUI.PrintLog("Successfully saved to the cloud.");
+            Debug.Log("Successfully saved to the cloud.");
+        }
+        else
+        {
+            savedGamesUI.PrintLog("Failed to save to cloud");
+            Debug.Log("Failed to save to cloud");
+        }
+    }
+
+    #endregion
 }

@@ -21,7 +21,7 @@ public class Leaderboard : MonoBehaviour
     private void DoLeaderboardPost(int score)
     {
         Social.ReportScore(score, 
-            GPGSIds.LEADERBOARD_TEST_SCORE_LEADERBOARD,
+            GPGSIds.leaderboard_test_score_leaderboard,
             (bool success) =>
             {
                 if (success)
@@ -56,7 +56,7 @@ public class Leaderboard : MonoBehaviour
 
     public void LoadLeaderboardBtn()
     {
-        LoadLeaderboard(GPGSIds.LEADERBOARD_TEST_SCORE_LEADERBOARD);
+        LoadLeaderboard(GPGSIds.leaderboard_test_score_leaderboard);
     }
 
     public void LeaderboardPostBtn()

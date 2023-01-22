@@ -24,11 +24,11 @@
 
 public static class GPGSIds
 {
-        public const string ACHIEVEMENT_UNLOCK_ACHIEVEMENT = "CgkIoqqpwMscEAIQAQ"; // <GPGSID>
-        public const string ACHIEVEMENT_HIDDEN_INCREMENTAL_ACHIEVEMENT = "CgkIoqqpwMscEAIQBA"; // <GPGSID>
-        public const string LEADERBOARD_TEST_SCORE_LEADERBOARD = "CgkIoqqpwMscEAIQBQ"; // <GPGSID>
-        public const string ACHIEVEMENT_HIDDEN_UNLOCK_ACHIEVEMENT = "CgkIoqqpwMscEAIQAw"; // <GPGSID>
-        public const string ACHIEVEMENT_INCREMENTAL_ACHIEVEMENT = "CgkIoqqpwMscEAIQAg"; // <GPGSID>
+        public const string achievement_unlock_achievement = "CgkIoqqpwMscEAIQAQ"; // <GPGSID>
+        public const string achievement_hidden_incremental_achievement = "CgkIoqqpwMscEAIQBA"; // <GPGSID>
+        public const string leaderboard_test_score_leaderboard = "CgkIoqqpwMscEAIQBQ"; // <GPGSID>
+        public const string achievement_hidden_unlock_achievement = "CgkIoqqpwMscEAIQAw"; // <GPGSID>
+        public const string achievement_incremental_achievement = "CgkIoqqpwMscEAIQAg"; // <GPGSID>
 
 }
 

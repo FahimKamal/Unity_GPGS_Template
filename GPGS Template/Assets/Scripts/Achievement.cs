@@ -117,32 +117,32 @@ public class Achievement : MonoBehaviour
 
     public void GrantAchievementBtn()
     {
-        DoGrantAchievement(GPGSIds.ACHIEVEMENT_UNLOCK_ACHIEVEMENT);
+        DoGrantAchievement(GPGSIds.achievement_unlock_achievement);
     }
     
     public void GrantIncrementalBtn()
     {
-        DoIncrementalAchievement(GPGSIds.ACHIEVEMENT_INCREMENTAL_ACHIEVEMENT);
+        DoIncrementalAchievement(GPGSIds.achievement_incremental_achievement);
     }
 
     public void RevealAchievementBtn()
     {
-        DoRevealAchievement(GPGSIds.ACHIEVEMENT_HIDDEN_UNLOCK_ACHIEVEMENT);
+        DoRevealAchievement(GPGSIds.achievement_hidden_unlock_achievement);
     }
     
     public void RevealIncrementalAchievementBtn()
     {
-        DoRevealAchievement(GPGSIds.ACHIEVEMENT_HIDDEN_INCREMENTAL_ACHIEVEMENT);
+        DoRevealAchievement(GPGSIds.achievement_hidden_incremental_achievement);
     }
 
     public void GrantHiddenAchievementBtn()
     {
-        DoGrantAchievement(GPGSIds.ACHIEVEMENT_HIDDEN_UNLOCK_ACHIEVEMENT);
+        DoGrantAchievement(GPGSIds.achievement_hidden_unlock_achievement);
     }
 
     public void HiddenIncrementalAchievementBtn()
     {
-        DoIncrementalAchievement(GPGSIds.ACHIEVEMENT_HIDDEN_INCREMENTAL_ACHIEVEMENT);
+        DoIncrementalAchievement(GPGSIds.achievement_hidden_incremental_achievement);
     }
     
     
