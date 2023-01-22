@@ -1,8 +1,5 @@
-using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 
 public class Leaderboard : MonoBehaviour
 {
@@ -42,7 +39,6 @@ public class Leaderboard : MonoBehaviour
 
     private void LoadLeaderboard(string leaderboardID)
     {
-        
         Social.LoadScores(
         leaderboardID,
         (scores) =>
@@ -54,7 +50,6 @@ public class Leaderboard : MonoBehaviour
                 {
                     logTxt.text += score.userID + ": " + score.value + "\n";
                 }
-                
             }
         });
     }
@@ -67,23 +62,5 @@ public class Leaderboard : MonoBehaviour
     public void LeaderboardPostBtn()
     {
         DoLeaderboardPost(int.Parse(scoreInputField.text));
-    }
-}
-
-public class LeaderboardData
-{
-    public string UserID = "";
-    public string UserName = "";
-    public string Score = "";
-    public string Date = "";
-    public string Rank = "";
-
-    public LeaderboardData(string userID = null, string userName = null, string score = null, string date = null, string rank = null)
-    {
-        UserID = userID;
-        UserName = userName;
-        Score = score;
-        Date = date;
-        Rank = rank;
     }
 }
