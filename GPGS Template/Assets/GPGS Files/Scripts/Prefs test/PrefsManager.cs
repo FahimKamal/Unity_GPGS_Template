@@ -4,6 +4,22 @@ using UnityEngine.UI;
 
 public class PrefsManager : MonoBehaviour
 {
+    private void OnEnable()
+    {
+        PlayServiceManager.Instance.dataSaved += OnDataSaved;
+        PlayServiceManager.Instance.dataLoaded += OnDataLoaded;
+        PlayServiceManager.Instance.onSignedIn += OnSignedIn;
+        PlayServiceManager.Instance.onSignedOut += OnSignedOut;
+    }
+    
+    private void OnDisable()
+    {
+        PlayServiceManager.Instance.dataSaved -= OnDataSaved;
+        PlayServiceManager.Instance.dataLoaded -= OnDataLoaded;
+        PlayServiceManager.Instance.onSignedIn -= OnSignedIn;
+        PlayServiceManager.Instance.onSignedOut -= OnSignedOut;
+    }
+
     public static readonly string TestIntValue = "TestIntValue";
     public static readonly string TestFloatValue = "TestFloatValue";
     public static readonly string TestStringValue = "TestStringValue";
@@ -18,12 +34,29 @@ public class PrefsManager : MonoBehaviour
     [SerializeField] private Button cloudSaveBtn;
     [SerializeField] private Button cloudLoadBtn;
 
+    [SerializeField] private GameObject loadingPanel;
+    [SerializeField] private GameObject savingTxt;
+    [SerializeField] private GameObject loadingTxt;
+    [SerializeField] private GameObject signInBtn;
+    [SerializeField] private GameObject signOutBtn;
+
     private void Awake()
     {
         savePrefsBtn.onClick.AddListener(SavePrefs);
         loadPrefsBtn.onClick.AddListener(LoadPrefs);
         cloudSaveBtn.onClick.AddListener(CloudSave);
         cloudLoadBtn.onClick.AddListener(CloudLoad);
+
+        if (Social.localUser.authenticated)
+        {
+            signInBtn.SetActive(false);
+            signOutBtn.SetActive(true);
+        }
+        else
+        {
+            signInBtn.SetActive(true);
+            signOutBtn.SetActive(false);
+        }
     }
 
     private void SavePrefs()
@@ -53,8 +86,12 @@ public class PrefsManager : MonoBehaviour
                            "String: " + localString + "\n";
     }
 
+    private bool isSaving;
+    private bool isLoading;
     private void CloudSave()
     {
+        StartSaving();
+        
         var data = new PrefsData
         {
             intData = PlayerPrefs.GetInt(TestIntValue, 0),
@@ -64,22 +101,73 @@ public class PrefsManager : MonoBehaviour
 
         var json = JsonUtility.ToJson(data);
         
-        // convert datatype to byte array
-        byte[] myData = System.Text.Encoding.ASCII.GetBytes(json);
-        Debug.Log(myData);
-        
-        var loadedData = System.Text.Encoding.ASCII.GetString(myData);
-
-        var dataBack = JsonUtility.FromJson<PrefsData>(loadedData);
-        
-        Debug.Log(dataBack.intData + "\n" +
-                  dataBack.floatData + "\n" +
-                  dataBack.stringData + "\n");
+        PlayServiceManager.Instance.OpenSave(true, json);
     }
 
     private void CloudLoad()
     {
+        StartLoading();
+        PlayServiceManager.Instance.OpenSave(false);
+    }
+    
+    private void OnDataSaved()
+    {
+        StopSaving();
+    }
+
+    private void OnDataLoaded()
+    {
+        description.text = "From Cloud:" + "\n";
+        StopLoading();
+        var data = PlayServiceManager.Instance.loadedData;
+        var formattedData = JsonUtility.FromJson<PrefsData>(data);
+
+        PlayerPrefs.SetInt(TestIntValue, formattedData.intData);
+        PlayerPrefs.SetFloat(TestFloatValue, formattedData.floatData);
+        PlayerPrefs.SetString(TestStringValue, formattedData.stringData);
         
+        LoadPrefs();
+    }
+
+    private void OnSignedIn()
+    {
+        signInBtn.SetActive(false);
+        signOutBtn.SetActive(true);
+    }
+    
+    private void OnSignedOut()
+    {
+        signInBtn.SetActive(true);
+        signOutBtn.SetActive(false);
+    }
+
+    private void StartSaving()
+    {
+        isSaving = !isSaving;
+        loadingPanel.SetActive(isSaving);
+        savingTxt.SetActive(isSaving);
+    }
+
+    private void StopSaving()
+    {
+        isSaving = !isSaving;
+        loadingPanel.SetActive(isSaving);
+        savingTxt.SetActive(isSaving);
+    }
+
+    private void StartLoading()
+    {
+        isLoading = !isLoading;
+        loadingPanel.SetActive(isLoading);
+        loadingTxt.SetActive(isLoading);
+    }
+    
+
+    private void StopLoading()
+    {
+        isLoading = !isLoading;
+        loadingPanel.SetActive(isLoading);
+        loadingTxt.SetActive(isLoading);
     }
 }
 

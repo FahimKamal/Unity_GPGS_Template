@@ -3,24 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="d3a1e4b7-d1e9-43f5-aec0-f8afa40b7378" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GPGS Template/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GPGS Template/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/PlayerPfefsTest.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/PlayerPfefsTest.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Achievement.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Achievement.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GPGSManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GPGSManager.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Leaderboard.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Leaderboard.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Prefs test.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Prefs test/PrefsManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Prefs test/PrefsManager.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SavedGamesUI.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SavedGamesUI.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Animations/LoadingAnim.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GPGS Files/Animations/LoadingAnim.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Animations/SavingAnim.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GPGS Files/Animations/SavingAnim.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scenes/PlayerPfefsTest.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GPGS Files/Scenes/PlayerPfefsTest.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PlayServiceManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PlayServiceManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PrefsManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PrefsManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +103,7 @@
       <workItem from="1674376770593" duration="10475000" />
       <workItem from="1674449648726" duration="2062000" />
       <workItem from="1674966694572" duration="6894000" />
-      <workItem from="1675054353001" duration="9960000" />
+      <workItem from="1675054353001" duration="17056000" />
     </task>
     <servers />
   </component>

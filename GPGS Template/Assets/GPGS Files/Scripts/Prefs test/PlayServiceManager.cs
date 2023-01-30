@@ -3,6 +3,7 @@ using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using GooglePlayGames.BasicApi.SavedGame;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayServiceManager : MonoBehaviour
 {
@@ -60,6 +61,7 @@ public class PlayServiceManager : MonoBehaviour
                 PopupManager.Instance.ShowPopup("Authenticating...", onlyLog:true);
                 if (code == SignInStatus.Success)
                 {
+                    onSignedIn!.Invoke();
                     PopupManager.Instance.ShowPopup("Successfully Authenticated", onlyLog:true);
                     PopupManager.Instance.ShowPopup("Hello " + Social.localUser.userName + " " +
                                                     "You have an ID of " + Social.localUser.id, title:"Success");
@@ -79,8 +81,11 @@ public class PlayServiceManager : MonoBehaviour
     #region Variables
 
     public Action dataLoaded;
-    private string mDataToBeSaved;
-    private string mLoadedData;
+    public Action dataSaved;
+    public Action onSignedIn;
+    public Action onSignedOut;
+    private string mDataToBeSaved; 
+    public string loadedData;
     private bool mIsSaving;
 
     #endregion
@@ -100,6 +105,7 @@ public class PlayServiceManager : MonoBehaviour
     {
         PlayGamesPlatform.Instance.SignOut();
         PopupManager.Instance.ShowPopup("Signed Out", "Success");
+        onSignedOut!.Invoke();
     }
 
     public void OpenSave(bool saving, string json = "")
@@ -155,7 +161,7 @@ public class PlayServiceManager : MonoBehaviour
         if (status == SavedGameRequestStatus.Success)
         {
             PopupManager.Instance.ShowPopup("Load successful, attempting to print...", onlyLog:true); 
-            mLoadedData = System.Text.Encoding.ASCII.GetString(data);
+            loadedData = System.Text.Encoding.ASCII.GetString(data);
             dataLoaded!.Invoke();
             // Fahim|25
         }
@@ -166,10 +172,11 @@ public class PlayServiceManager : MonoBehaviour
         if (status == SavedGameRequestStatus.Success)
         {
             PopupManager.Instance.ShowPopup("Successfully saved to the cloud.", "Success");
+            dataSaved!.Invoke();
         }
         else
         {
-            PopupManager.Instance.ShowPopup("Failed to save to cloud", "Failed");
+            PopupManager.Instance.ShowPopup("Failed to save to cloud", "Failed", onlyLog:true);
         }
     }
 }
