@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,9 +28,14 @@ public class PrefsManager : MonoBehaviour
 
     private void SavePrefs()
     {
-        PlayerPrefs.SetInt(TestIntValue, int.Parse(intInput.text));
-        PlayerPrefs.SetFloat(TestFloatValue, float.Parse(floatInput.text));
-        PlayerPrefs.SetString(TestStringValue, txtInput.text);
+        PrefsData data = new PrefsData();
+        data.intData = int.Parse(intInput.text);
+        data.floatData = float.Parse(floatInput.text);
+        data.stringData = txtInput.text;
+        
+        PlayerPrefs.SetInt(TestIntValue, data.intData);
+        PlayerPrefs.SetFloat(TestFloatValue, data.floatData);
+        PlayerPrefs.SetString(TestStringValue, data.stringData);
         
         description.text = "Value Saved: \n" +"Int: " + intInput.text + "\n" +
             "Float: " + floatInput.text + "\n" +
@@ -43,7 +45,7 @@ public class PrefsManager : MonoBehaviour
     private void LoadPrefs()
     {
         var localInt = PlayerPrefs.GetInt(TestIntValue, 0);
-        var localFloat = PlayerPrefs.GetInt(TestFloatValue, 0);
+        var localFloat = PlayerPrefs.GetFloat(TestFloatValue, 0);
         var localString = PlayerPrefs.GetString(TestStringValue, "No Value");
         
         description.text = "Value Loaded: \n" +"Int: " + localInt + "\n" +
@@ -53,11 +55,37 @@ public class PrefsManager : MonoBehaviour
 
     private void CloudSave()
     {
+        var data = new PrefsData
+        {
+            intData = PlayerPrefs.GetInt(TestIntValue, 0),
+            floatData = PlayerPrefs.GetFloat(TestFloatValue, 0),
+            stringData = PlayerPrefs.GetString(TestStringValue)
+        };
+
+        var json = JsonUtility.ToJson(data);
         
+        // convert datatype to byte array
+        byte[] myData = System.Text.Encoding.ASCII.GetBytes(json);
+        Debug.Log(myData);
+        
+        var loadedData = System.Text.Encoding.ASCII.GetString(myData);
+
+        var dataBack = JsonUtility.FromJson<PrefsData>(loadedData);
+        
+        Debug.Log(dataBack.intData + "\n" +
+                  dataBack.floatData + "\n" +
+                  dataBack.stringData + "\n");
     }
 
     private void CloudLoad()
     {
         
     }
+}
+
+public class PrefsData
+{
+    public int intData;
+    public float floatData;
+    public string stringData;
 }
