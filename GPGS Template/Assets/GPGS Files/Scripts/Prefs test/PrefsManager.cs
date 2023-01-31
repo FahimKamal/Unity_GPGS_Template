@@ -24,9 +24,9 @@ public class PrefsManager : MonoBehaviour
         PlayServiceManager.Instance.dataLoadFailed -= OnDataLoadFailed;
     }
 
-    public static readonly string TestIntValue = "TestIntValue";
-    public static readonly string TestFloatValue = "TestFloatValue";
-    public static readonly string TestStringValue = "TestStringValue";
+    private static readonly string TestIntValue = "TestIntValue";
+    private static readonly string TestFloatValue = "TestFloatValue";
+    private static readonly string TestStringValue = "TestStringValue";
     
     [SerializeField] private TextMeshProUGUI description;
     [SerializeField] private TMP_InputField intInput;
@@ -50,6 +50,8 @@ public class PrefsManager : MonoBehaviour
         loadPrefsBtn.onClick.AddListener(LoadPrefs);
         cloudSaveBtn.onClick.AddListener(CloudSave);
         cloudLoadBtn.onClick.AddListener(CloudLoad);
+        signInBtn.GetComponent<Button>().onClick.AddListener(OnSignInBtnClicked);
+        signOutBtn.GetComponent<Button>().onClick.AddListener(OnSignOutBtnClicked);
 
         if (Social.localUser.authenticated)
         {
@@ -61,6 +63,16 @@ public class PrefsManager : MonoBehaviour
             signInBtn.SetActive(true);
             signOutBtn.SetActive(false);
         }
+    }
+
+    private void OnSignOutBtnClicked()
+    {
+        PlayServiceManager.Instance.SignOutBtn();
+    }
+
+    private void OnSignInBtnClicked()
+    {
+        PlayServiceManager.Instance.BasicSignInBtn();
     }
 
     /// <summary>
@@ -172,6 +184,7 @@ public class PrefsManager : MonoBehaviour
         
         // Show the data on screen
         LoadPrefs();
+        description.text += "From cloud";
     }
     
     /// <summary>

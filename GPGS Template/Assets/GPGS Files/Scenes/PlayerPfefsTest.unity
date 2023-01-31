@@ -1951,8 +1951,8 @@ MonoBehaviour:
   loadingPanel: {fileID: 627553958}
   savingTxt: {fileID: 981740807}
   loadingTxt: {fileID: 1354065362}
-  signInBtn: {fileID: 0}
-  signOutBtn: {fileID: 0}
+  signInBtn: {fileID: 2088218863}
+  signOutBtn: {fileID: 2012299024}
 --- !u!4 &918796485
 Transform:
   m_ObjectHideFlags: 0
@@ -3669,7 +3669,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1855244951
 MonoBehaviour:
   m_ObjectHideFlags: 0
