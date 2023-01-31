@@ -81,7 +81,9 @@ public class PlayServiceManager : MonoBehaviour
     #region Variables
 
     public Action dataLoaded;
+    public Action dataLoadFailed;
     public Action dataSaved;
+    public Action dataSaveFailed;
     public Action onSignedIn;
     public Action onSignedOut;
     private string mDataToBeSaved; 
@@ -165,6 +167,11 @@ public class PlayServiceManager : MonoBehaviour
             dataLoaded!.Invoke();
             // Fahim|25
         }
+        else
+        {
+            PopupManager.Instance.ShowPopup("Failed to load data.", onlyLog:true);
+            dataLoadFailed!.Invoke();
+        }
     }
 
     private void SaveCallBack(SavedGameRequestStatus status, ISavedGameMetadata meta)
@@ -177,6 +184,7 @@ public class PlayServiceManager : MonoBehaviour
         else
         {
             PopupManager.Instance.ShowPopup("Failed to save to cloud", "Failed", onlyLog:true);
+            dataSaveFailed!.Invoke();
         }
     }
 }

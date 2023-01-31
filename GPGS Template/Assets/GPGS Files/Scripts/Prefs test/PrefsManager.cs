@@ -10,14 +10,18 @@ public class PrefsManager : MonoBehaviour
         PlayServiceManager.Instance.dataLoaded += OnDataLoaded;
         PlayServiceManager.Instance.onSignedIn += OnSignedIn;
         PlayServiceManager.Instance.onSignedOut += OnSignedOut;
+        PlayServiceManager.Instance.dataSaveFailed += OnDataSaveFailed;
+        PlayServiceManager.Instance.dataLoadFailed += OnDataLoadFailed;
     }
-    
+
     private void OnDisable()
     {
         PlayServiceManager.Instance.dataSaved -= OnDataSaved;
         PlayServiceManager.Instance.dataLoaded -= OnDataLoaded;
         PlayServiceManager.Instance.onSignedIn -= OnSignedIn;
         PlayServiceManager.Instance.onSignedOut -= OnSignedOut;
+        PlayServiceManager.Instance.dataSaveFailed -= OnDataSaveFailed;
+        PlayServiceManager.Instance.dataLoadFailed -= OnDataLoadFailed;
     }
 
     public static readonly string TestIntValue = "TestIntValue";
@@ -59,6 +63,9 @@ public class PrefsManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Save data locally with PlayerPrefs
+    /// </summary>
     private void SavePrefs()
     {
         PrefsData data = new PrefsData();
@@ -75,6 +82,9 @@ public class PrefsManager : MonoBehaviour
             "String: " + txtInput.text + "\n";
     }
 
+    /// <summary>
+    /// Load data from local PlayerPrefs
+    /// </summary>
     private void LoadPrefs()
     {
         var localInt = PlayerPrefs.GetInt(TestIntValue, 0);
@@ -86,12 +96,18 @@ public class PrefsManager : MonoBehaviour
                            "String: " + localString + "\n";
     }
 
-    private bool isSaving;
-    private bool isLoading;
+    private bool mIsSaving;
+    private bool mIsLoading;
+    
+    /// <summary>
+    /// Read data from local PlayerPrefs and save them on cloud.
+    /// </summary>
     private void CloudSave()
     {
+        // Start Saving animation.
         StartSaving();
         
+        // Create data class to create json data.
         var data = new PrefsData
         {
             intData = PlayerPrefs.GetInt(TestIntValue, 0),
@@ -99,34 +115,71 @@ public class PrefsManager : MonoBehaviour
             stringData = PlayerPrefs.GetString(TestStringValue)
         };
 
+        // Create json data.
         var json = JsonUtility.ToJson(data);
         
+        // Save the data onto cloud.
         PlayServiceManager.Instance.OpenSave(true, json);
     }
-
-    private void CloudLoad()
+    
+    /// <summary>
+    /// Will be executed on successful data save onto cloud.
+    /// </summary>
+    private void OnDataSaved()
     {
-        StartLoading();
-        PlayServiceManager.Instance.OpenSave(false);
+        // Stop saving animation.
+        StopSaving();
     }
     
-    private void OnDataSaved()
+    /// <summary>
+    /// Will be executed on failing to save data onto cloud.
+    /// </summary>
+    private void OnDataSaveFailed()
     {
         StopSaving();
     }
 
+    /// <summary>
+    /// Load data from cloud.
+    /// </summary>
+    private void CloudLoad()
+    {
+        // Start loading animation.
+        StartLoading();
+        
+        // Load data from cloud
+        PlayServiceManager.Instance.OpenSave(false);
+    }
+
+    /// <summary>
+    /// will be executed on successful data load from cloud.
+    /// </summary>
     private void OnDataLoaded()
     {
         description.text = "From Cloud:" + "\n";
+        // Stop loading animation.
         StopLoading();
+        
+        // Get loaded json data from cloud
         var data = PlayServiceManager.Instance.loadedData;
+        // Convert the json data indo usable data
         var formattedData = JsonUtility.FromJson<PrefsData>(data);
 
+        // Now save those data back to playerPrefs locally on the device.
         PlayerPrefs.SetInt(TestIntValue, formattedData.intData);
         PlayerPrefs.SetFloat(TestFloatValue, formattedData.floatData);
         PlayerPrefs.SetString(TestStringValue, formattedData.stringData);
         
+        // Show the data on screen
         LoadPrefs();
+    }
+    
+    /// <summary>
+    /// Will be executed on failing to load data from cloud.
+    /// </summary>
+    private void OnDataLoadFailed()
+    {
+        
     }
 
     private void OnSignedIn()
@@ -141,36 +194,56 @@ public class PrefsManager : MonoBehaviour
         signOutBtn.SetActive(false);
     }
 
+    #region Saving/Loading animation section
+
+    /// <summary>
+    /// Start saving animation.
+    /// </summary>
     private void StartSaving()
     {
-        isSaving = !isSaving;
-        loadingPanel.SetActive(isSaving);
-        savingTxt.SetActive(isSaving);
+        mIsSaving = !mIsSaving;
+        loadingPanel.SetActive(mIsSaving);
+        savingTxt.SetActive(mIsSaving);
     }
 
+    /// <summary>
+    /// Stop saving animation.
+    /// </summary>
     private void StopSaving()
     {
-        isSaving = !isSaving;
-        loadingPanel.SetActive(isSaving);
-        savingTxt.SetActive(isSaving);
+        mIsSaving = !mIsSaving;
+        loadingPanel.SetActive(mIsSaving);
+        savingTxt.SetActive(mIsSaving);
     }
 
+    /// <summary>
+    /// Start loading animation.
+    /// </summary>
     private void StartLoading()
     {
-        isLoading = !isLoading;
-        loadingPanel.SetActive(isLoading);
-        loadingTxt.SetActive(isLoading);
+        mIsLoading = !mIsLoading;
+        loadingPanel.SetActive(mIsLoading);
+        loadingTxt.SetActive(mIsLoading);
     }
     
 
+    /// <summary>
+    /// Stop loading animation.
+    /// </summary>
     private void StopLoading()
     {
-        isLoading = !isLoading;
-        loadingPanel.SetActive(isLoading);
-        loadingTxt.SetActive(isLoading);
+        mIsLoading = !mIsLoading;
+        loadingPanel.SetActive(mIsLoading);
+        loadingTxt.SetActive(mIsLoading);
     }
+
+    #endregion
 }
 
+
+/// <summary>
+/// Data class for storing data onto cloud.
+/// </summary>
 public class PrefsData
 {
     public int intData;
