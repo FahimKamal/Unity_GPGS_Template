@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d3a1e4b7-d1e9-43f5-aec0-f8afa40b7378" name="Changes" comment="" />
+    <list default="true" id="d3a1e4b7-d1e9-43f5-aec0-f8afa40b7378" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.GPGS Template/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GPGS Template/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PlayServiceManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PlayServiceManager.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -95,7 +98,7 @@
       <workItem from="1674449648726" duration="2062000" />
       <workItem from="1674966694572" duration="6894000" />
       <workItem from="1675054353001" duration="17056000" />
-      <workItem from="1675148952918" duration="4418000" />
+      <workItem from="1675148952918" duration="5065000" />
     </task>
     <servers />
   </component>

@@ -110,6 +110,12 @@ public class PlayServiceManager : MonoBehaviour
         onSignedOut!.Invoke();
     }
 
+    /// <summary>
+    /// Method will be call for both save and load data from cloud. After successfully signing in into
+    /// google account. You can call this method to save or load data. 
+    /// </summary>
+    /// <param name="saving">Set it true if your saving data. False if loading</param>
+    /// <param name="json">If saving data then insert the data as json string. On loading leave it.</param>
     public void OpenSave(bool saving, string json = "")
     {
         PopupManager.Instance.ShowPopup("Open Saved Clicked", onlyLog:true);
