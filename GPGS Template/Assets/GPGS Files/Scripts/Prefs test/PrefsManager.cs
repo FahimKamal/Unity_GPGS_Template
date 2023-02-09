@@ -151,6 +151,7 @@ public class PrefsManager : MonoBehaviour
     {
         // Stop saving animation.
         StopSaving();
+        ClearInputFields();
     }
     
     /// <summary>
@@ -210,19 +211,28 @@ public class PrefsManager : MonoBehaviour
     /// </summary>
     private void OnDataLoadFailed()
     {
-        
+        PopupManager.Instance.ShowPopup("Data can't be loaded.", "load Failed");
     }
 
     private void OnSignedIn()
     {
         signInBtn.SetActive(false);
         signOutBtn.SetActive(true);
+        CloudLoad();
     }
     
     private void OnSignedOut()
     {
         signInBtn.SetActive(true);
         signOutBtn.SetActive(false);
+        ClearInputFields();
+    }
+
+    private void ClearInputFields()
+    {
+        intInput.text = "";
+        floatInput.text = "";
+        txtInput.text = "";
     }
 
     #region Saving/Loading animation section
