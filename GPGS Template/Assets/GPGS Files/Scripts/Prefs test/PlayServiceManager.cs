@@ -3,7 +3,6 @@ using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using GooglePlayGames.BasicApi.SavedGame;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class PlayServiceManager : MonoBehaviour
 {
@@ -69,6 +68,7 @@ public class PlayServiceManager : MonoBehaviour
                 }
                 else
                 {
+                    onSignInFailed!.Invoke();
                     PopupManager.Instance.ShowPopup("Failed to Authenticate", onlyLog:true);
                     PopupManager.Instance.ShowPopup("Failed to Authenticate, reason for failure is: " + code, onlyLog:true);
                 }
@@ -85,7 +85,9 @@ public class PlayServiceManager : MonoBehaviour
     public Action dataSaved;
     public Action dataSaveFailed;
     public Action onSignedIn;
+    public Action onSignInFailed;
     public Action onSignedOut;
+    
     private string mDataToBeSaved; 
     public string loadedData;
     private bool mIsSaving;

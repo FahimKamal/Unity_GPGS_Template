@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,9 +10,15 @@ public class PrefsManager : MonoBehaviour
         PlayServiceManager.Instance.dataSaved += OnDataSaved;
         PlayServiceManager.Instance.dataLoaded += OnDataLoaded;
         PlayServiceManager.Instance.onSignedIn += OnSignedIn;
+        PlayServiceManager.Instance.onSignInFailed += OnSignInFailed;
         PlayServiceManager.Instance.onSignedOut += OnSignedOut;
         PlayServiceManager.Instance.dataSaveFailed += OnDataSaveFailed;
         PlayServiceManager.Instance.dataLoadFailed += OnDataLoadFailed;
+    }
+
+    private void OnSignInFailed()
+    {
+        Instantiate(loginFailedPopup, transform);
     }
 
     private void OnDisable()
@@ -19,6 +26,7 @@ public class PrefsManager : MonoBehaviour
         PlayServiceManager.Instance.dataSaved -= OnDataSaved;
         PlayServiceManager.Instance.dataLoaded -= OnDataLoaded;
         PlayServiceManager.Instance.onSignedIn -= OnSignedIn;
+        PlayServiceManager.Instance.onSignInFailed -= OnSignInFailed;
         PlayServiceManager.Instance.onSignedOut -= OnSignedOut;
         PlayServiceManager.Instance.dataSaveFailed -= OnDataSaveFailed;
         PlayServiceManager.Instance.dataLoadFailed -= OnDataLoadFailed;
@@ -43,6 +51,8 @@ public class PrefsManager : MonoBehaviour
     [SerializeField] private GameObject loadingTxt;
     [SerializeField] private GameObject signInBtn;
     [SerializeField] private GameObject signOutBtn;
+
+    [SerializeField] private GameObject loginFailedPopup;
 
     private void Awake()
     {
@@ -175,16 +185,24 @@ public class PrefsManager : MonoBehaviour
         // Get loaded json data from cloud
         var data = PlayServiceManager.Instance.loadedData;
         // Convert the json data indo usable data
-        var formattedData = JsonUtility.FromJson<PrefsData>(data);
-
-        // Now save those data back to playerPrefs locally on the device.
-        PlayerPrefs.SetInt(TestIntValue, formattedData.intData);
-        PlayerPrefs.SetFloat(TestFloatValue, formattedData.floatData);
-        PlayerPrefs.SetString(TestStringValue, formattedData.stringData);
+        try
+        {
+            var formattedData = JsonUtility.FromJson<PrefsData>(data);
+            // Now save those data back to playerPrefs locally on the device.
+            PlayerPrefs.SetInt(TestIntValue, formattedData.intData);
+            PlayerPrefs.SetFloat(TestFloatValue, formattedData.floatData);
+            PlayerPrefs.SetString(TestStringValue, formattedData.stringData);
         
-        // Show the data on screen
-        LoadPrefs();
-        description.text += "From cloud";
+            // Show the data on screen
+            LoadPrefs();
+            description.text += "From cloud";
+        }
+        catch (Exception e)
+        {
+            PopupManager.Instance.ShowPopup("No data found in This account.", "New Account");
+            throw;
+        }
+
     }
     
     /// <summary>

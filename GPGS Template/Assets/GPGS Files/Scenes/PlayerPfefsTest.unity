@@ -1953,6 +1953,7 @@ MonoBehaviour:
   loadingTxt: {fileID: 1354065362}
   signInBtn: {fileID: 2088218863}
   signOutBtn: {fileID: 2012299024}
+  loginFailedPopup: {fileID: 518775712009529825, guid: 19b0474ffb853314eabfb95625a33d3c, type: 3}
 --- !u!4 &918796485
 Transform:
   m_ObjectHideFlags: 0
