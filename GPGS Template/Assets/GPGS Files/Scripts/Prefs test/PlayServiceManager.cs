@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using GooglePlayGames.BasicApi.SavedGame;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using UnityEngine;
 
 public class PlayServiceManager : MonoBehaviour
@@ -138,7 +141,15 @@ public class PlayServiceManager : MonoBehaviour
     }
     
     private void SaveGameOpen(SavedGameRequestStatus status, ISavedGameMetadata meta)
-    {
+    { 
+        // Need more modification here.
+        // ********************************************************************
+        var storage = new Dictionary<string, object> { { "data", 125 } };
+
+        var test = JsonUtility.ToJson(storage);
+        var back = JsonUtility.FromJson<Dictionary<string, object>>(test);
+        // ********************************************************************
+        
         if (status == SavedGameRequestStatus.Success)
         {
             PopupManager.Instance.ShowPopup("Status successful.", onlyLog:true);

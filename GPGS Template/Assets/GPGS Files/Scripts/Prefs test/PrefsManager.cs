@@ -1,8 +1,9 @@
 using System;
+using SaveIsEasy;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+[RequireComponent(typeof(SaveIsEasyComponent))]
 public class PrefsManager : MonoBehaviour
 {
     private void OnEnable()
@@ -37,9 +38,9 @@ public class PrefsManager : MonoBehaviour
     private static readonly string TestStringValue = "TestStringValue";
     
     [SerializeField] private TextMeshProUGUI description;
-    [SerializeField] private TMP_InputField intInput;
-    [SerializeField] private TMP_InputField floatInput;
-    [SerializeField] private TMP_InputField txtInput;
+    [SerializeField, QuickAccess] private TMP_InputField intInput;
+    [SerializeField, QuickAccess] private TMP_InputField floatInput;
+    [SerializeField, QuickAccess] private TMP_InputField txtInput;
 
     [SerializeField] private Button savePrefsBtn;
     [SerializeField] private Button loadPrefsBtn;
