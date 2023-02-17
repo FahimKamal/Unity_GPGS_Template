@@ -6,50 +6,6 @@
       <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scenes/Save_Is_Easy_Test.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GPGS Files/Scenes/Save_Is_Easy_Test.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PlayServiceManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PlayServiceManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PrefsManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PrefsManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Adapters.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Adapters/AnimationAdapter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Adapters/AnimationAdapter.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Adapters/LineRendererAdapter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Adapters/LineRendererAdapter.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 1.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 1/Example 1.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 1/Example 1.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 1/Example1.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 1/Example1.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 1/ExampleCube.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 1/ExampleCube.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 2.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 2/Color.mat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 2/Color.mat.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 2/Example 2.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 2/Example 2.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 2/Example2.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 2/Example2.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 2/Example2CubeMove.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 2/Example2CubeMove.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example Menu.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example Menu/Example Menu.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example Menu/Example Menu.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example Menu/InfoPart.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example Menu/InfoPart.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example Menu/LoadPart.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example Menu/LoadPart.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example Menu/SaveIsEasyMenu.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example Menu/SaveIsEasyMenu.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/ExampleControlGUI.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/ExampleControlGUI.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Readme.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Readme.html.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/SaveIsEasyDLL.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/SaveIsEasyDLL.dll.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/SaveIsEasyDLL.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/SaveIsEasyDLL.xml.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/SaveIsEasyEditorDLL.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/SaveIsEasyEditorDLL.dll.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/GvhProjectSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/GvhProjectSettings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,7 +102,9 @@
       <workItem from="1675148952918" duration="6557000" />
       <workItem from="1675922838182" duration="8205000" />
       <workItem from="1676534032155" duration="4619000" />
-      <workItem from="1676613561705" duration="1472000" />
+      <workItem from="1676613561705" duration="2339000" />
+      <workItem from="1676615945198" duration="23000" />
+      <workItem from="1676637785232" duration="9234000" />
     </task>
     <servers />
   </component>

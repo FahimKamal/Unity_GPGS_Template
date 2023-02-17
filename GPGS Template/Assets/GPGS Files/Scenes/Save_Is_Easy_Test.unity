@@ -1531,6 +1531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0c13c26db745064db81516f61a601d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  editorMode: 1
   loadedData: 
 --- !u!4 &736774805
 Transform:
@@ -1921,7 +1922,6 @@ GameObject:
   m_Component:
   - component: {fileID: 918796485}
   - component: {fileID: 918796484}
-  - component: {fileID: 918796486}
   m_Layer: 0
   m_Name: Prefs manager
   m_TagString: Untagged
@@ -1970,97 +1970,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &918796486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 918796483}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -499960783, guid: c3ab396f3f53d1c4ebc7bae03391b186, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FieldsEnable:
-    Version: 2
-    PathsEnabled:
-    - PrefsManager/intInput
-    - PrefsManager/floatInput
-    - PrefsManager/txtInput
-    ModificationVersion: 7
-    ComponentsEnabled: []
-    HashFieldsEnabled: []
-    ObjectsEnabled: 
-    HashSetFieldsEnabled:
-      m_buckets: 030000000000000001000000
-      m_slots:
-      - hashCode: 1439077385
-        next: -1
-        value:
-          HashCodePath: 251129099
-          HashCodeMember: 1202957097
-      - hashCode: 717061194
-        next: -1
-        value:
-          HashCodePath: 251129099
-          HashCodeMember: 480940906
-      - hashCode: 525321474
-        next: 1
-        value:
-          HashCodePath: 251129099
-          HashCodeMember: 289201186
-      m_count: 3
-      m_lastIndex: 3
-      m_freeList: -1
-      m_version: 18
-    HashSetObjectsEnabled:
-      m_buckets: 000000000000000001000000
-      m_slots:
-      - hashCode: 251129099
-        next: -1
-        value: 251129099
-      - hashCode: 0
-        next: 0
-        value: 0
-      - hashCode: 0
-        next: 0
-        value: 0
-      m_count: 1
-      m_lastIndex: 1
-      m_freeList: -1
-      m_version: 11
-    HashSetComponentsEnabled:
-      m_buckets: 000000000000000001000000
-      m_slots:
-      - hashCode: 251129099
-        next: -1
-        value: PrefsManager
-      - hashCode: 0
-        next: 0
-        value: 
-      - hashCode: 0
-        next: 0
-        value: 
-      m_count: 1
-      m_lastIndex: 1
-      m_freeList: -1
-      m_version: 11
-    AreValidSavedHashs: 1
-  Position: 0
-  Rotation: 0
-  Scale: 0
-  Name: 0
-  Tag: 0
-  Active: 0
-  Static: 0
-  Layer: 0
-  GAMEOBJECT_STATIC_ID: 0
-  GAMEOBJECT_PATH: 
-  Private_prefabId: 97311338
-  PrefabSetTime: 1676534080
-  CreateInRuntime: 0
-  onLoad: 0
 --- !u!1 &935043138
 GameObject:
   m_ObjectHideFlags: 0

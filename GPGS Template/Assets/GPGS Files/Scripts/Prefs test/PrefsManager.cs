@@ -1,13 +1,17 @@
 using System;
+using TigerForge;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 public class PrefsManager : MonoBehaviour
 {
+    private EasyFileSave _gameData;
+    
     private void OnEnable()
     {
         PlayServiceManager.Instance.dataSaved += OnDataSaved;
         PlayServiceManager.Instance.dataLoaded += OnDataLoaded;
+        PlayServiceManager.Instance.noDataFound += OnNoDataFound;
         PlayServiceManager.Instance.onSignedIn += OnSignedIn;
         PlayServiceManager.Instance.onSignInFailed += OnSignInFailed;
         PlayServiceManager.Instance.onSignedOut += OnSignedOut;
@@ -24,6 +28,7 @@ public class PrefsManager : MonoBehaviour
     {
         PlayServiceManager.Instance.dataSaved -= OnDataSaved;
         PlayServiceManager.Instance.dataLoaded -= OnDataLoaded;
+        PlayServiceManager.Instance.noDataFound -= OnNoDataFound;
         PlayServiceManager.Instance.onSignedIn -= OnSignedIn;
         PlayServiceManager.Instance.onSignInFailed -= OnSignInFailed;
         PlayServiceManager.Instance.onSignedOut -= OnSignedOut;
@@ -55,6 +60,9 @@ public class PrefsManager : MonoBehaviour
 
     private void Awake()
     {
+        // Initialize gameData object for saving. 
+        _gameData = new EasyFileSave();
+        
         savePrefsBtn.onClick.AddListener(SavePrefs);
         loadPrefsBtn.onClick.AddListener(LoadPrefs);
         cloudSaveBtn.onClick.AddListener(CloudSave);
@@ -89,14 +97,10 @@ public class PrefsManager : MonoBehaviour
     /// </summary>
     private void SavePrefs()
     {
-        PrefsData data = new PrefsData();
-        data.intData = int.Parse(intInput.text);
-        data.floatData = float.Parse(floatInput.text);
-        data.stringData = txtInput.text;
-        
-        PlayerPrefs.SetInt(TestIntValue, data.intData);
-        PlayerPrefs.SetFloat(TestFloatValue, data.floatData);
-        PlayerPrefs.SetString(TestStringValue, data.stringData);
+        _gameData.Add(TestIntValue, int.Parse(intInput.text));
+        _gameData.Add(TestFloatValue, float.Parse(floatInput.text));
+        _gameData.Add(TestStringValue, txtInput.text);
+        _gameData.Save();
         
         description.text = "Value Saved: \n" +"Int: " + intInput.text + "\n" +
             "Float: " + floatInput.text + "\n" +
@@ -108,10 +112,12 @@ public class PrefsManager : MonoBehaviour
     /// </summary>
     private void LoadPrefs()
     {
-        var localInt = PlayerPrefs.GetInt(TestIntValue, 0);
-        var localFloat = PlayerPrefs.GetFloat(TestFloatValue, 0);
-        var localString = PlayerPrefs.GetString(TestStringValue, "No Value");
+        _gameData.Load();
+        var localInt = _gameData.GetInt(TestIntValue, 0);
+        var localFloat = _gameData.GetFloat(TestFloatValue, 0);
+        var localString = _gameData.GetString(TestStringValue, "No Value");
         
+        _gameData.Dispose();
         description.text = "Value Loaded: \n" +"Int: " + localInt + "\n" +
                            "Float: " + localFloat + "\n" +
                            "String: " + localString + "\n";
@@ -127,20 +133,9 @@ public class PrefsManager : MonoBehaviour
     {
         // Start Saving animation.
         StartSaving();
-        
-        // Create data class to create json data.
-        var data = new PrefsData
-        {
-            intData = PlayerPrefs.GetInt(TestIntValue, 0),
-            floatData = PlayerPrefs.GetFloat(TestFloatValue, 0),
-            stringData = PlayerPrefs.GetString(TestStringValue)
-        };
 
-        // Create json data.
-        var json = JsonUtility.ToJson(data);
-        
         // Save the data onto cloud.
-        PlayServiceManager.Instance.OpenSave(true, json);
+        PlayServiceManager.Instance.OpenSave(true);
     }
     
     /// <summary>
@@ -182,33 +177,22 @@ public class PrefsManager : MonoBehaviour
         // Stop loading animation.
         StopLoading();
         
-        // Get loaded json data from cloud
-        var data = PlayServiceManager.Instance.loadedData;
-        // Convert the json data indo usable data
-        try
-        {
-            var formattedData = JsonUtility.FromJson<PrefsData>(data);
-            // Now save those data back to playerPrefs locally on the device.
-            PlayerPrefs.SetInt(TestIntValue, formattedData.intData);
-            PlayerPrefs.SetFloat(TestFloatValue, formattedData.floatData);
-            PlayerPrefs.SetString(TestStringValue, formattedData.stringData);
-        
-            // Show the data on screen
-            LoadPrefs();
-            description.text += "From cloud";
-        }
-        catch (Exception e)
-        {
-            PopupManager.Instance.ShowPopup("No data found in This account.", "New Account");
-            throw;
-        }
-
+        // Show the data on screen
+        LoadPrefs();
+    }
+    
+    /// <summary>
+    /// Will be executed if no data is found on the cloud.
+    /// </summary>
+    private static void OnNoDataFound()
+    {
+        PopupManager.Instance.ShowPopup("No data found in This account.", "New Account");
     }
     
     /// <summary>
     /// Will be executed on failing to load data from cloud.
     /// </summary>
-    private void OnDataLoadFailed()
+    private static void OnDataLoadFailed()
     {
         PopupManager.Instance.ShowPopup("Data can't be loaded.", "load Failed");
     }
@@ -278,15 +262,4 @@ public class PrefsManager : MonoBehaviour
     }
 
     #endregion
-}
-
-
-/// <summary>
-/// Data class for storing data onto cloud.
-/// </summary>
-public class PrefsData
-{
-    public int intData;
-    public float floatData;
-    public string stringData;
 }
