@@ -3,9 +3,53 @@
   <component name="ChangeListManager">
     <list default="true" id="d3a1e4b7-d1e9-43f5-aec0-f8afa40b7378" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GPGS Template/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GPGS Template/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scenes/Save_Is_Easy_Test.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GPGS Files/Scenes/Save_Is_Easy_Test.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PlayServiceManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PlayServiceManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PrefsManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PrefsManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Adapters.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Adapters/AnimationAdapter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Adapters/AnimationAdapter.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Adapters/LineRendererAdapter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Adapters/LineRendererAdapter.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 1.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 1/Example 1.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 1/Example 1.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 1/Example1.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 1/Example1.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 1/ExampleCube.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 1/ExampleCube.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 2.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 2/Color.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 2/Color.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 2/Example 2.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 2/Example 2.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 2/Example2.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 2/Example2.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 2/Example2CubeMove.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example 2/Example2CubeMove.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example Menu.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example Menu/Example Menu.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example Menu/Example Menu.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example Menu/InfoPart.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example Menu/InfoPart.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example Menu/LoadPart.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example Menu/LoadPart.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example Menu/SaveIsEasyMenu.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/Example Menu/SaveIsEasyMenu.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/ExampleControlGUI.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Examples/ExampleControlGUI.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Readme.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/Readme.html.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/SaveIsEasyDLL.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/SaveIsEasyDLL.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/SaveIsEasyDLL.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/SaveIsEasyDLL.xml.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/SaveIsEasyEditorDLL.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Save is easy/SaveIsEasyEditorDLL.dll.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/GvhProjectSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/GvhProjectSettings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,14 +57,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/bae255e3e08e46f7bc2fbd23dde96338158800/2b/a469a875/02000266.il" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/45e858c2c04a4e5a86a023061cc637d33400/5c/3f6f330b/JsonUtility.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/21/81529046/PlayerPrefs.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/28/b912dc45/Object.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/GPGS Files/Animations/LoadingAnim.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/GPGS Files/Animations/SavingAnim.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/LoginFailed.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/GPGSIds.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/TigerForge/EasyFileSave/Demo/Demo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.textmeshpro@3.0.6/Scripts/Runtime/TMP_InputField.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.textmeshpro@3.0.6/Scripts/Runtime/TextMeshProUGUI.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -75,10 +116,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="3576">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="3576" />
+      <option name="pid" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -105,6 +146,7 @@
       <workItem from="1675148952918" duration="6557000" />
       <workItem from="1675922838182" duration="8205000" />
       <workItem from="1676534032155" duration="4619000" />
+      <workItem from="1676613561705" duration="1472000" />
     </task>
     <servers />
   </component>

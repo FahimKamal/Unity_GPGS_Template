@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using GooglePlayGames.BasicApi.SavedGame;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using UnityEngine;
 
 public class PlayServiceManager : MonoBehaviour
@@ -12,6 +10,9 @@ public class PlayServiceManager : MonoBehaviour
     #region Singleton
 
     public static PlayServiceManager Instance;
+
+    [Tooltip("If True, Methods will not be called")]
+    [SerializeField] private bool editorMode;
 
     private void Awake()
     {
@@ -33,6 +34,11 @@ public class PlayServiceManager : MonoBehaviour
 
     private void Start()
     {
+        if (editorMode)
+        {
+            PopupManager.Instance.ShowPopup("Editor mode action. Play Service Manager is inactive.", onlyLog:true);
+            return;
+        }
         ConfigureGPGS();
         SignIntoGPGS(SignInInteractivity.CanPromptOnce, mClientConfiguration);
     }
@@ -102,6 +108,11 @@ public class PlayServiceManager : MonoBehaviour
     /// </summary>
     public void BasicSignInBtn()
     {
+        if (editorMode)
+        {
+            PopupManager.Instance.ShowPopup("Editor mode action. Play Service Manager is inactive.", onlyLog:true);
+            return;
+        }
         SignIntoGPGS(SignInInteractivity.CanPromptAlways, mClientConfiguration);
     }
     
@@ -110,6 +121,8 @@ public class PlayServiceManager : MonoBehaviour
     /// </summary>
     public void SignOutBtn()
     {
+        if (editorMode)
+            return;
         PlayGamesPlatform.Instance.SignOut();
         PopupManager.Instance.ShowPopup("Signed Out", "Success");
         onSignedOut!.Invoke();
@@ -123,6 +136,11 @@ public class PlayServiceManager : MonoBehaviour
     /// <param name="json">If saving data then insert the data as json string. On loading leave it.</param>
     public void OpenSave(bool saving, string json = "")
     {
+        if (editorMode)
+        {
+            PopupManager.Instance.ShowPopup("Editor mode action. Play Service Manager is inactive.", onlyLog:true);
+            return;
+        }
         PopupManager.Instance.ShowPopup("Open Saved Clicked", onlyLog:true);
         mDataToBeSaved = json;
         mIsSaving = saving;
