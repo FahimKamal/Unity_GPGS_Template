@@ -184,8 +184,9 @@ public class PrefsManager : MonoBehaviour
     /// <summary>
     /// Will be executed if no data is found on the cloud.
     /// </summary>
-    private static void OnNoDataFound()
+    private void OnNoDataFound()
     {
+        StopLoading();
         PopupManager.Instance.ShowPopup("No data found in This account.", "New Account");
     }
     

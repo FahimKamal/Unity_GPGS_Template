@@ -41,7 +41,7 @@ public class PlayServiceManager : MonoBehaviour
     {
         if (editorMode)
         {
-            PopupManager.Instance.ShowPopup("Editor mode action. Play Service Manager is inactive.", onlyLog:true);
+            PopupManager.Instance.ShowPopup("Editor mode active. Play Service Manager is inactive.", onlyLog:true);
             return;
         }
         ConfigureGPGS();
@@ -149,7 +149,7 @@ public class PlayServiceManager : MonoBehaviour
     {
         if (editorMode)
         {
-            PopupManager.Instance.ShowPopup("Editor mode action. Play Service Manager is inactive.", onlyLog:true);
+            PopupManager.Instance.ShowPopup("Editor mode active. Play Service Manager is inactive.", onlyLog:true);
             return;
         }
         SignIntoGPGS(SignInInteractivity.CanPromptAlways, mClientConfiguration);
