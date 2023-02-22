@@ -8,10 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/GPGS Files/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 0
+  - enabled: 1
     path: Assets/GPGS Files/Scenes/PlayerPfefsTest.unity
     guid: 7d2ffd74d61a11545b16fc792e49678c
-  - enabled: 1
+  - enabled: 0
     path: Assets/GPGS Files/Scenes/Save_Is_Easy_Test.unity
     guid: 0e0df34133cef6441b11f14510d09d18
   m_configObjects: {}

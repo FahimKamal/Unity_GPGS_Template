@@ -3,9 +3,23 @@
   <component name="ChangeListManager">
     <list default="true" id="d3a1e4b7-d1e9-43f5-aec0-f8afa40b7378" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GPGS Template/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GPGS Template/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PlayServiceManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PlayServiceManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scenes/PlayerPfefsTest.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GPGS Files/Scenes/PlayerPfefsTest.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PrefsManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PrefsManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Popup Manager/Popup Manager.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Popup Manager/Popup Manager.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TigerForge.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TigerForge/EasyFileSave.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TigerForge/EasyFileSave/Demo.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TigerForge/EasyFileSave/Demo/Demo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TigerForge/EasyFileSave/Demo/Demo.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TigerForge/EasyFileSave/Demo/Demo.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TigerForge/EasyFileSave/Demo/Demo.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TigerForge/EasyFileSave/EasyFileSave.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TigerForge/EasyFileSave/EasyFileSave.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TigerForge/EasyFileSave/EasyFileSaveExtension.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TigerForge/EasyFileSave/EasyFileSaveExtension.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TigerForge/EasyFileSave/Manual.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TigerForge/EasyFileSave/Manual.html.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,11 +27,13 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/bae255e3e08e46f7bc2fbd23dde96338158800/2b/a469a875/02000266.il" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/21/81529046/PlayerPrefs.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/28/b912dc45/Object.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/GPGS Files/Animations/LoadingAnim.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/GPGS Files/Animations/SavingAnim.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/LoginFailed.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/GPGSIds.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/TigerForge/EasyFileSave/Demo/Demo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.textmeshpro@3.0.6/Scripts/Runtime/TMP_InputField.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.textmeshpro@3.0.6/Scripts/Runtime/TextMeshProUGUI.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -107,6 +123,7 @@
       <workItem from="1676637785232" duration="10177000" />
       <workItem from="1676664422953" duration="618000" />
       <workItem from="1676694047943" duration="1766000" />
+      <workItem from="1677047153080" duration="2004000" />
     </task>
     <servers />
   </component>

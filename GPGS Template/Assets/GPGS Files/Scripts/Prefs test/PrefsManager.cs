@@ -1,12 +1,8 @@
-using System;
-using TigerForge;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 public class PrefsManager : MonoBehaviour
 {
-    private EasyFileSave _gameData;
-    
     private void OnEnable()
     {
         PlayServiceManager.Instance.dataSaved += OnDataSaved;
@@ -60,9 +56,6 @@ public class PrefsManager : MonoBehaviour
 
     private void Awake()
     {
-        // Initialize gameData object for saving. 
-        _gameData = new EasyFileSave();
-        
         savePrefsBtn.onClick.AddListener(SavePrefs);
         loadPrefsBtn.onClick.AddListener(LoadPrefs);
         cloudSaveBtn.onClick.AddListener(CloudSave);
@@ -97,10 +90,9 @@ public class PrefsManager : MonoBehaviour
     /// </summary>
     private void SavePrefs()
     {
-        _gameData.Add(TestIntValue, int.Parse(intInput.text));
-        _gameData.Add(TestFloatValue, float.Parse(floatInput.text));
-        _gameData.Add(TestStringValue, txtInput.text);
-        _gameData.Save();
+        FileHandler.Add(TestIntValue, int.Parse(intInput.text));
+        FileHandler.Add(TestFloatValue, float.Parse(floatInput.text));
+        FileHandler.Add(TestStringValue, txtInput.text);
         
         description.text = "Value Saved: \n" +"Int: " + intInput.text + "\n" +
             "Float: " + floatInput.text + "\n" +
@@ -112,12 +104,10 @@ public class PrefsManager : MonoBehaviour
     /// </summary>
     private void LoadPrefs()
     {
-        _gameData.Load();
-        var localInt = _gameData.GetInt(TestIntValue, 0);
-        var localFloat = _gameData.GetFloat(TestFloatValue, 0);
-        var localString = _gameData.GetString(TestStringValue, "No Value");
+        var localInt = FileHandler.GetInt(TestIntValue, 0);
+        var localFloat = FileHandler.GetFloat(TestFloatValue, 0);
+        var localString = FileHandler.GetString(TestStringValue, "No Value");
         
-        _gameData.Dispose();
         description.text = "Value Loaded: \n" +"Int: " + localInt + "\n" +
                            "Float: " + localFloat + "\n" +
                            "String: " + localString + "\n";

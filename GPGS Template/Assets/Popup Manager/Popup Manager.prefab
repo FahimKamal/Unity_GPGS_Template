@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6032176785920239207}
   - component: {fileID: 6032176785920239206}
+  - component: {fileID: 506998456}
   m_Layer: 0
   m_Name: Popup Manager
   m_TagString: Untagged
@@ -50,6 +51,26 @@ MonoBehaviour:
   popupPrefab: {fileID: 518775712009529825, guid: bfa61a3f46b18624bbff25cec1570476, type: 3}
   useLog: 1
   logDisplayManger: {fileID: 1208991698}
+--- !u!95 &506998456
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6032176785920239205}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0223a4b3136a7b846a89e716e5abb0cf, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &6137447288176983844
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -149,6 +170,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LogDisplay Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 6137447287284899357, guid: dceaea31c9a3241429dfbe8658679d6f, type: 3}
+      propertyPath: m_Size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6137447287751923712, guid: dceaea31c9a3241429dfbe8658679d6f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -164,6 +189,10 @@ PrefabInstance:
     - target: {fileID: 6137447287751923712, guid: dceaea31c9a3241429dfbe8658679d6f, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 976.49097
+      objectReference: {fileID: 0}
+    - target: {fileID: 6137447287751923714, guid: dceaea31c9a3241429dfbe8658679d6f, type: 3}
+      propertyPath: m_Text
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6137447287777503180, guid: dceaea31c9a3241429dfbe8658679d6f, type: 3}
       propertyPath: m_AnchorMax.x
