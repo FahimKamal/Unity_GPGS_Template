@@ -90,9 +90,9 @@ public class PrefsManager : MonoBehaviour
     /// </summary>
     private void SavePrefs()
     {
-        FileHandler.Add(TestIntValue, int.Parse(intInput.text));
-        FileHandler.Add(TestFloatValue, float.Parse(floatInput.text));
-        FileHandler.Add(TestStringValue, txtInput.text);
+        FileHandler.SetInt(TestIntValue, int.Parse(intInput.text));
+        FileHandler.SetFloat(TestFloatValue, float.Parse(floatInput.text));
+        FileHandler.SetString(TestStringValue, txtInput.text);
         
         description.text = "Value Saved: \n" +"Int: " + intInput.text + "\n" +
             "Float: " + floatInput.text + "\n" +

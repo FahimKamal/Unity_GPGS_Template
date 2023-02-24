@@ -1,10 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Security.Cryptography;
-using System.Text;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using GooglePlayGames.BasicApi.SavedGame;
@@ -17,7 +12,7 @@ public class PlayServiceManager : MonoBehaviour
     public static PlayServiceManager Instance;
 
     [Tooltip("If True, Methods will not be called")]
-    [SerializeField] private bool editorMode;
+    public bool editorMode;
 
     private void Awake()
     {
@@ -35,17 +30,18 @@ public class PlayServiceManager : MonoBehaviour
 
     #region GPGS Configuration Area
     
-    private PlayGamesClientConfiguration mClientConfiguration;
+    private PlayGamesClientConfiguration _mClientConfiguration;
 
     private void Start()
     {
         if (editorMode)
         {
             PopupManager.Instance.ShowPopup("Editor mode active. Play Service Manager is inactive.", onlyLog:true);
+            onSignedIn?.Invoke();
             return;
         }
         ConfigureGPGS();
-        SignIntoGPGS(SignInInteractivity.CanPromptOnce, mClientConfiguration);
+        SignIntoGPGS(SignInInteractivity.CanPromptAlways, _mClientConfiguration);
     }
 
     /// <summary>
@@ -53,7 +49,7 @@ public class PlayServiceManager : MonoBehaviour
     /// </summary>
     private void ConfigureGPGS()
     {
-        mClientConfiguration = new PlayGamesClientConfiguration.Builder()
+        _mClientConfiguration = new PlayGamesClientConfiguration.Builder()
             .EnableSavedGames()
             .Build();
     }
@@ -74,7 +70,7 @@ public class PlayServiceManager : MonoBehaviour
                 PopupManager.Instance.ShowPopup("Authenticating...", onlyLog:true);
                 if (code == SignInStatus.Success)
                 {
-                    onSignedIn!.Invoke();
+                    onSignedIn?.Invoke();
                     PopupManager.Instance.ShowPopup("Successfully Authenticated", onlyLog:true);
                     PopupManager.Instance.ShowPopup("Hello " + Social.localUser.userName + " " +
                                                     "You have an ID of " + Social.localUser.id, title:"Success");
@@ -82,7 +78,7 @@ public class PlayServiceManager : MonoBehaviour
                 }
                 else
                 {
-                    onSignInFailed!.Invoke();
+                    onSignInFailed?.Invoke();
                     PopupManager.Instance.ShowPopup("Failed to Authenticate", onlyLog:true);
                     PopupManager.Instance.ShowPopup("Failed to Authenticate, reason for failure is: " + code, onlyLog:true);
                 }
@@ -136,10 +132,7 @@ public class PlayServiceManager : MonoBehaviour
     
     
     private bool _mIsSaving;
-    
-    private string _fileName = "";
-    private string _password = "";
-    
+
     #endregion
     
     /// <summary>
@@ -152,7 +145,7 @@ public class PlayServiceManager : MonoBehaviour
             PopupManager.Instance.ShowPopup("Editor mode active. Play Service Manager is inactive.", onlyLog:true);
             return;
         }
-        SignIntoGPGS(SignInInteractivity.CanPromptAlways, mClientConfiguration);
+        SignIntoGPGS(SignInInteractivity.CanPromptAlways, _mClientConfiguration);
     }
     
     /// <summary>
@@ -164,17 +157,15 @@ public class PlayServiceManager : MonoBehaviour
             return;
         PlayGamesPlatform.Instance.SignOut();
         PopupManager.Instance.ShowPopup("Signed Out", "Success");
-        onSignedOut!.Invoke();
+        onSignedOut?.Invoke();
     }
 
     /// <summary>
     /// Method will be call for both save and load data from cloud. After successfully signing in into
-    /// google account. You can call this method to save or load data. 
+    /// google account. You can call this method to save and load data. 
     /// </summary>
     /// <param name="saving">Set it true if your saving data. False if loading</param>
-    /// <param name="fileName">Name of the file in the system, that needs to be saved on the cloud</param>
-    /// <param name="password">Give password if the file is encrypted. leave blank otherwise.</param>
-    public void OpenSave(bool saving, string fileName = "gamedata", string password = "")
+    public void OpenSave(bool saving)
     {
         if (editorMode)
         {
@@ -183,21 +174,22 @@ public class PlayServiceManager : MonoBehaviour
         }
         PopupManager.Instance.ShowPopup("Open Saved Clicked", onlyLog:true);
         _mIsSaving = saving;
-        
-        // Initialize the file name with the right path, name and extension.
-        _fileName = Application.persistentDataPath + "/" + fileName + ".dat";
-        _password = password;
-        
+
         if (Social.localUser.authenticated)
         {
             PopupManager.Instance.ShowPopup("User is authenticated", onlyLog:true);
             
             ((PlayGamesPlatform)Social.Active).SavedGame.OpenWithAutomaticConflictResolution(
                 "SaveGameFileName",
-                DataSource.ReadCacheOrNetwork,
-                ConflictResolutionStrategy.UseLongestPlaytime,
+                DataSource.ReadNetworkOnly,
+                ConflictResolutionStrategy.UseMostRecentlySaved,
                 SaveGameOpen
             );
+        }
+        else
+        {
+            dataSaveFailed?.Invoke();
+            dataLoadFailed?.Invoke();
         }
     }
     
@@ -210,11 +202,19 @@ public class PlayServiceManager : MonoBehaviour
             {
                 PopupManager.Instance.ShowPopup("Attempting to save...", onlyLog:true);
                 
-                // Load game data from local storage
-                LoadGameData(out var gameData);
+                // var storage = FileHandler.Load();
+                if (!FileHandler.FileExists())
+                {
+                    PopupManager.Instance.ShowPopup("No local data found.");
+                    return;
+                }
+                // Todo:  Load game data from local storage
+                var file = new StreamReader(FileHandler.FileName);
+                var fileContents = file.ReadToEnd();
+                file.Close();
                 
-                // convert datatype to byte array
-                var myData = System.Text.Encoding.ASCII.GetBytes(gameData);
+                // todo: convert datatype to byte array
+                var myData = System.Text.Encoding.ASCII.GetBytes(fileContents);
                 
                 // update metadata 
                 var updateForMetadata = new SavedGameMetadataUpdate.Builder().WithUpdatedDescription("I have updated my game at: " + DateTime.Now).Build();
@@ -230,28 +230,39 @@ public class PlayServiceManager : MonoBehaviour
         }
         else // SavedGameRequestStatus error
         {
-            PopupManager.Instance.ShowPopup("Status unsuccessful, failed to open save data.", onlyLog:true);
+            PopupManager.Instance.ShowPopup("Status unsuccessful, failed to open save data.");
         }
     }
-
 
 
     private void LoadCallBack(SavedGameRequestStatus status, byte[] data)
     {
         if (status == SavedGameRequestStatus.Success)
         {
-            PopupManager.Instance.ShowPopup("Load successful, attempting to print...", onlyLog:true); 
+            PopupManager.Instance.ShowPopup("Load successful...", onlyLog:true); 
             var loadedData = System.Text.Encoding.ASCII.GetString(data);
+            //Todo: Save game data back to local storage.
+            if (loadedData is "" or null)
+            {
+                noDataFound?.Invoke();
+                PopupManager.Instance.ShowPopup("No data found on the cloud.", onlyLog:true);
+            }
+            else
+            {
+                var file = new StreamWriter(FileHandler.FileName);
+                
+                file.WriteLine(loadedData);
+                file.Close();
+                
+                PopupManager.Instance.ShowPopup("Data downloaded from cloud and saved to disk.", onlyLog:true);
+                dataLoaded?.Invoke();
+            }
             
-            // Save game data back to local storage.
-            SaveGameData(loadedData);
-            
-            // Fahim|25
         }
         else
         {
             PopupManager.Instance.ShowPopup("Failed to load data.", onlyLog:true);
-            dataLoadFailed!.Invoke();
+            dataLoadFailed?.Invoke();
         }
     }
 
@@ -260,194 +271,12 @@ public class PlayServiceManager : MonoBehaviour
         if (status == SavedGameRequestStatus.Success)
         {
             PopupManager.Instance.ShowPopup("Successfully saved to the cloud.", "Success");
-            dataSaved!.Invoke();
+            dataSaved?.Invoke();
         }
         else
         {
             PopupManager.Instance.ShowPopup("Failed to save to cloud", "Failed", onlyLog:true);
-            dataSaveFailed!.Invoke();
+            dataSaveFailed?.Invoke();
         }
     }
-    
-    
-    #region Game data read/write from system
-
-    /// <summary>
-    /// Checks if game data file exists in the system.
-    /// </summary>
-    /// <returns>True if data exists. False otherwise.</returns>
-    private bool FileExists()
-    {
-        return File.Exists(_fileName);
-    }
-
-    /// <summary>
-    /// Load game data that needs to be saved on the cloud from system.
-    /// </summary>
-    /// <param name="gameData">Returns game data as Json string</param>
-    /// <returns>True if successfully loaded, false otherwise.</returns>
-    private bool LoadGameData(out string gameData)
-    {
-        // If the file doesn't exist, the method just returns false. A warning message is written into the Error property.
-        if (!FileExists())
-        {
-            PopupManager.Instance.ShowPopup("Status unsuccessful, No game data found to be saved.", onlyLog:true);
-            gameData = null;
-            return false;
-        }
-
-        try
-        {
-            if (_password == "")
-            {
-                BinaryFormatter bf = new BinaryFormatter();
-                FileStream loadFile = File.Open(_fileName, FileMode.Open);
-                var storage = (Dictionary<string, object>)bf.Deserialize(loadFile);
-                loadFile.Close();
-                
-                gameData = JsonUtility.ToJson(storage);
-                return true;
-            }
-            else
-            {
-                LoadSecure(_password,out var storage);
-                gameData = JsonUtility.ToJson(storage);
-                return true;
-            }
-
-        }
-        catch (Exception e)
-        {
-            PopupManager.Instance.ShowPopup("This system exception has been thrown during loading: ", onlyLog:true);
-            gameData = null;
-            return false;
-        }
-
-    }
-    
-    /// <summary>
-    /// Load a password protected and compressed file data into the 'system internal storage'
-    /// and return TRUE if the loading has been completed. Return FALSE if something has gone wrong.
-    /// </summary>
-    /// <param name="password">Password of the file.</param>
-    /// <param name="storage">Data of the file.</param>
-    /// <returns></returns>
-    private bool LoadSecure(string password, out Dictionary<string, object> storage)
-    {
-        // *****************************************************************************
-        // Don't change the line below
-        password = (password + "easyfilesavesecure1234").Substring(0, 16);
-        // *****************************************************************************
-
-        try
-        {
-            byte[] key = Encoding.UTF8.GetBytes(password);
-            byte[] iv = Encoding.UTF8.GetBytes(password);
-
-            using (Stream s = File.OpenRead(_fileName))
-            {
-                RijndaelManaged rm = new RijndaelManaged();
-                rm.Key = key;
-                rm.IV = iv;
-                using (CryptoStream cs = new CryptoStream(s, rm.CreateDecryptor(), CryptoStreamMode.Read))
-                {
-                    using (GZipStream gs = new GZipStream(cs, CompressionMode.Decompress))
-                    {
-                        BinaryFormatter bf = new BinaryFormatter();
-                        storage = (Dictionary<string, object>)bf.Deserialize(gs);
-                    }
-                }
-            }
-
-            return true;
-        }
-        catch (System.Exception e)
-        {
-            PopupManager.Instance.ShowPopup("This system exception has been thrown during secure loading: ", onlyLog:true);
-            storage = null;
-            return false;
-        }
-    }
-
-    /// <summary>
-    /// Save the game data back to the system.
-    /// </summary>
-    /// <param name="dataString">Json data string loaded from cloud.</param>
-    /// <returns></returns>
-    private bool SaveGameData(string dataString)
-    {
-        try
-        {
-            if (_password == "")
-            {
-                // Converts the game data json string back to dictionary format.
-                var storage = JsonUtility.FromJson<Dictionary<string, object>>(dataString);
-                
-                // Save the game data to system.
-                BinaryFormatter bf = new BinaryFormatter();
-                FileStream saveFile = File.Create(_fileName);
-                bf.Serialize(saveFile, storage);
-                saveFile.Close();
-                
-                dataLoaded!.Invoke();
-                return true;
-            }
-            else
-            {
-                SaveSecure(_password, dataString);
-                return true;
-            }
-        }
-        catch (Exception e)
-        {
-            PopupManager.Instance.ShowPopup("This system exception has been thrown during saving: ", onlyLog:true);
-            noDataFound!.Invoke();
-            return false;
-        }
-            
-    }
-    
-    private bool SaveSecure(string password, string dataString)
-    {
-        // *****************************************************************************
-        // Don't change the line below
-        password = (password + "easyfilesavesecure1234").Substring(0, 16);
-        // *****************************************************************************
-
-        try
-        {
-            // Converts the game data json string back to dictionary format.
-            var storage = JsonUtility.FromJson<Dictionary<string, object>>(dataString);
-
-            byte[] key = Encoding.UTF8.GetBytes(password);
-            byte[] iv = Encoding.UTF8.GetBytes(password);
-
-            using (Stream s = File.Create(_fileName))
-            {
-                RijndaelManaged rm = new RijndaelManaged();
-                rm.Key = key;
-                rm.IV = iv;
-                using (CryptoStream cs = new CryptoStream(s, rm.CreateEncryptor(), CryptoStreamMode.Write))
-                {
-                    using (GZipStream gs = new GZipStream(cs, CompressionMode.Compress))
-                    {
-                        BinaryFormatter bf = new BinaryFormatter();
-                        bf.Serialize(gs, storage);
-                        
-                        dataLoaded!.Invoke();
-                    }
-                }
-            }
-            
-            return true;
-        }
-        catch (System.Exception e)
-        {
-            PopupManager.Instance.ShowPopup("This system exception has been thrown during SaveSecure: ", onlyLog:true);
-            return false;
-        }
-    }
-
-    #endregion
-
 }
