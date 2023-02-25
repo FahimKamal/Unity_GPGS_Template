@@ -3,14 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="d3a1e4b7-d1e9-43f5-aec0-f8afa40b7378" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GPGS Template/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GPGS Template/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scenes/Save_Is_Easy_Test.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GPGS Files/Scenes/Save_Is_Easy_Test.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scenes/Save_Is_Easy_Test.unity.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GPGS Files/Scenes/Save_Is_Easy_Test.unity.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/FileHandler.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/FileHandler.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scenes/Save_Is_Easy_Test.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scenes/Save_Is_Easy_Test.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/FileHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/FileHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PlayServiceManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PlayServiceManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PlayServiceManager.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PlayServiceManager.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PrefsManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/PrefsManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Popup Manager/Scripts/PopupManager.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Popup Manager/Scripts/PopupManager.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,6 +115,7 @@
       <workItem from="1676694047943" duration="1766000" />
       <workItem from="1677047153080" duration="2004000" />
       <workItem from="1677244398914" duration="4106000" />
+      <workItem from="1677307444507" duration="7979000" />
     </task>
     <servers />
   </component>

@@ -5,14 +5,14 @@ public class PrefsManager : MonoBehaviour
 {
     private void OnEnable()
     {
-        PlayServiceManager.Instance.dataSaved += OnDataSaved;
-        PlayServiceManager.Instance.dataLoaded += OnDataLoaded;
+        PlayServiceManager.Instance.onDataSaved += OnDataSaved;
+        PlayServiceManager.Instance.onDataLoaded += OnDataLoaded;
         PlayServiceManager.Instance.noDataFound += OnNoDataFound;
         PlayServiceManager.Instance.onSignedIn += OnSignedIn;
         PlayServiceManager.Instance.onSignInFailed += OnSignInFailed;
         PlayServiceManager.Instance.onSignedOut += OnSignedOut;
-        PlayServiceManager.Instance.dataSaveFailed += OnDataSaveFailed;
-        PlayServiceManager.Instance.dataLoadFailed += OnDataLoadFailed;
+        PlayServiceManager.Instance.onDataSaveFailed += OnDataSaveFailed;
+        PlayServiceManager.Instance.onDataLoadFailed += OnDataLoadFailed;
     }
 
     private void OnSignInFailed()
@@ -22,14 +22,14 @@ public class PrefsManager : MonoBehaviour
 
     private void OnDisable()
     {
-        PlayServiceManager.Instance.dataSaved -= OnDataSaved;
-        PlayServiceManager.Instance.dataLoaded -= OnDataLoaded;
+        PlayServiceManager.Instance.onDataSaved -= OnDataSaved;
+        PlayServiceManager.Instance.onDataLoaded -= OnDataLoaded;
         PlayServiceManager.Instance.noDataFound -= OnNoDataFound;
         PlayServiceManager.Instance.onSignedIn -= OnSignedIn;
         PlayServiceManager.Instance.onSignInFailed -= OnSignInFailed;
         PlayServiceManager.Instance.onSignedOut -= OnSignedOut;
-        PlayServiceManager.Instance.dataSaveFailed -= OnDataSaveFailed;
-        PlayServiceManager.Instance.dataLoadFailed -= OnDataLoadFailed;
+        PlayServiceManager.Instance.onDataSaveFailed -= OnDataSaveFailed;
+        PlayServiceManager.Instance.onDataLoadFailed -= OnDataLoadFailed;
     }
 
     private static readonly string TestIntValue = "TestIntValue";

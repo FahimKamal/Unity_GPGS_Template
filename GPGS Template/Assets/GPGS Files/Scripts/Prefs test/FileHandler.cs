@@ -51,7 +51,7 @@ public static class FileHandler
     /// Load data from storage.
     /// </summary>
     /// <returns></returns>
-    private static GameDataClass Load()
+    public static GameDataClass Load()
     {
         // If the file doesn't exist, the method just returns false. A warning message is written into the Error property.
         if (!FileExists())
@@ -77,7 +77,7 @@ public static class FileHandler
     /// </summary>
     /// <param name="storage"></param>
     /// <returns></returns>
-    private static bool Save(GameDataClass storage)
+    public static bool Save(GameDataClass storage)
     {
         try
         {

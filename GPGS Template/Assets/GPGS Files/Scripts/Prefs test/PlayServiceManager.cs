@@ -3,6 +3,7 @@ using System.IO;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using GooglePlayGames.BasicApi.SavedGame;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 public class PlayServiceManager : MonoBehaviour
@@ -13,6 +14,54 @@ public class PlayServiceManager : MonoBehaviour
 
     [Tooltip("If True, Methods will not be called")]
     public bool editorMode;
+    
+    #region Variables
+
+    /// <summary>
+    /// will be executed on successful data load from cloud.
+    /// </summary>
+    public Action onDataLoaded;
+    
+    /// <summary>
+    /// Will be executed if no data is found on the cloud.
+    /// </summary>
+    public Action noDataFound;
+    
+    /// <summary>
+    /// Will be executed on failing to load data from cloud.
+    /// </summary>
+    public Action onDataLoadFailed;
+    
+    /// <summary>
+    /// Will be executed on successful data save onto cloud.
+    /// </summary>
+    public Action onDataSaved;
+    
+    /// <summary>
+    /// Will be executed on failing to save data onto cloud.
+    /// </summary>
+    public Action onDataSaveFailed;
+    
+    /// <summary>
+    /// Will be executed on successful signIn.
+    /// </summary>
+    public Action onSignedIn;
+    
+    /// <summary>
+    /// Will be executed on signIn failed.
+    /// </summary>
+    public Action onSignInFailed;
+    
+    /// <summary>
+    /// Will be executed on signOut.
+    /// </summary>
+    public Action onSignedOut;
+    
+    
+    private bool mMIsSaving;
+
+    #endregion
+
 
     private void Awake()
     {
@@ -41,7 +90,7 @@ public class PlayServiceManager : MonoBehaviour
             return;
         }
         ConfigureGPGS();
-        SignIntoGPGS(SignInInteractivity.CanPromptAlways, _mClientConfiguration);
+        //SignIntoGPGS(SignInInteractivity.CanPromptAlways, _mClientConfiguration);
     }
 
     /// <summary>
@@ -87,53 +136,6 @@ public class PlayServiceManager : MonoBehaviour
     }
 
     #endregion
-
-    #region Variables
-
-    /// <summary>
-    /// will be executed on successful data load from cloud.
-    /// </summary>
-    public Action dataLoaded;
-    
-    /// <summary>
-    /// Will be executed if no data is found on the cloud.
-    /// </summary>
-    public Action noDataFound;
-    
-    /// <summary>
-    /// Will be executed on failing to load data from cloud.
-    /// </summary>
-    public Action dataLoadFailed;
-    
-    /// <summary>
-    /// Will be executed on successful data save onto cloud.
-    /// </summary>
-    public Action dataSaved;
-    
-    /// <summary>
-    /// Will be executed on failing to save data onto cloud.
-    /// </summary>
-    public Action dataSaveFailed;
-    
-    /// <summary>
-    /// Will be executed on successful signIn.
-    /// </summary>
-    public Action onSignedIn;
-    
-    /// <summary>
-    /// Will be executed on signIn failed.
-    /// </summary>
-    public Action onSignInFailed;
-    
-    /// <summary>
-    /// Will be executed on signOut.
-    /// </summary>
-    public Action onSignedOut;
-    
-    
-    private bool _mIsSaving;
-
-    #endregion
     
     /// <summary>
     /// Manual Signin triggered by pressing Btn by user. 
@@ -146,6 +148,7 @@ public class PlayServiceManager : MonoBehaviour
             return;
         }
         SignIntoGPGS(SignInInteractivity.CanPromptAlways, _mClientConfiguration);
+        Debug.Log("I was clicked");
     }
     
     /// <summary>
@@ -173,7 +176,7 @@ public class PlayServiceManager : MonoBehaviour
             return;
         }
         PopupManager.Instance.ShowPopup("Open Saved Clicked", onlyLog:true);
-        _mIsSaving = saving;
+        mMIsSaving = saving;
 
         if (Social.localUser.authenticated)
         {
@@ -188,8 +191,8 @@ public class PlayServiceManager : MonoBehaviour
         }
         else
         {
-            dataSaveFailed?.Invoke();
-            dataLoadFailed?.Invoke();
+            onDataSaveFailed?.Invoke();
+            onDataLoadFailed?.Invoke();
         }
     }
     
@@ -198,7 +201,7 @@ public class PlayServiceManager : MonoBehaviour
         if (status == SavedGameRequestStatus.Success)
         {
             PopupManager.Instance.ShowPopup("Status successful.", onlyLog:true);
-            if (_mIsSaving) // saving data to cloud
+            if (mMIsSaving) // saving data to cloud
             {
                 PopupManager.Instance.ShowPopup("Attempting to save...", onlyLog:true);
                 
@@ -209,12 +212,15 @@ public class PlayServiceManager : MonoBehaviour
                     return;
                 }
                 // Todo:  Load game data from local storage
-                var file = new StreamReader(FileHandler.FileName);
-                var fileContents = file.ReadToEnd();
-                file.Close();
+                var storage = FileHandler.Load();
+        
+                fsData serializedData;
+                var serializer = new fsSerializer();
+                serializer.TrySerialize(storage, out serializedData).AssertSuccessWithoutWarnings();
+                var json = fsJsonPrinter.PrettyJson(serializedData);
                 
                 // todo: convert datatype to byte array
-                var myData = System.Text.Encoding.ASCII.GetBytes(fileContents);
+                var myData = System.Text.Encoding.ASCII.GetBytes(json);
                 
                 // update metadata 
                 var updateForMetadata = new SavedGameMetadataUpdate.Builder().WithUpdatedDescription("I have updated my game at: " + DateTime.Now).Build();
@@ -249,20 +255,30 @@ public class PlayServiceManager : MonoBehaviour
             }
             else
             {
-                var file = new StreamWriter(FileHandler.FileName);
                 
-                file.WriteLine(loadedData);
-                file.Close();
+                var converted = fsJsonParser.Parse(loadedData);
+                object deserialized = null;
+                var serializer = new fsSerializer();
+                serializer.TryDeserialize(converted, typeof(GameDataClass), ref deserialized).AssertSuccessWithoutWarnings();
+
+                var storage = deserialized as GameDataClass;
+                FileHandler.Save(storage);
+                
+                
+                // var file = new StreamWriter(FileHandler.FileName);
+                //
+                // file.WriteLine(loadedData);
+                // file.Close();
                 
                 PopupManager.Instance.ShowPopup("Data downloaded from cloud and saved to disk.", onlyLog:true);
-                dataLoaded?.Invoke();
+                onDataLoaded?.Invoke();
             }
             
         }
         else
         {
             PopupManager.Instance.ShowPopup("Failed to load data.", onlyLog:true);
-            dataLoadFailed?.Invoke();
+            onDataLoadFailed?.Invoke();
         }
     }
 
@@ -271,12 +287,12 @@ public class PlayServiceManager : MonoBehaviour
         if (status == SavedGameRequestStatus.Success)
         {
             PopupManager.Instance.ShowPopup("Successfully saved to the cloud.", "Success");
-            dataSaved?.Invoke();
+            onDataSaved?.Invoke();
         }
         else
         {
             PopupManager.Instance.ShowPopup("Failed to save to cloud", "Failed", onlyLog:true);
-            dataSaveFailed?.Invoke();
+            onDataSaveFailed?.Invoke();
         }
     }
 }
