@@ -8,6 +8,8 @@ using Debug = UnityEngine.Debug;
 
 public class GPGSManager : MonoBehaviour
 {
+    
+    
     private PlayGamesClientConfiguration mClientConfiguration;
     public TextMeshProUGUI statusTxt;
     public TextMeshProUGUI descriptionTxt;
@@ -65,7 +67,7 @@ public class GPGSManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Manual Signin triggered by pressing Btn user. 
+    /// Manual Signin triggered by pressing Btn by user. 
     /// </summary>
     public void BasicSignInBtn()
     {
@@ -115,7 +117,7 @@ public class GPGSManager : MonoBehaviour
         if (status == SavedGameRequestStatus.Success)
         {
             savedGamesUI.PrintLog("Status successful.");
-            if (mIsSaving) // are saving
+            if (mIsSaving) // saving data
             {
                 savedGamesUI.PrintLog("Attempting to save...");
                 // convert datatype to byte array
@@ -127,7 +129,7 @@ public class GPGSManager : MonoBehaviour
                 // commit save game
                 ((PlayGamesPlatform)Social.Active).SavedGame.CommitUpdate(meta, updateForMetadata, myData, SaveCallBack);
             }
-            else // are loading
+            else // loading data
             {
                 savedGamesUI.PrintLog("Attempting to load...");
                 ((PlayGamesPlatform)Social.Active).SavedGame.ReadBinaryData(meta, LoadCallBack);
