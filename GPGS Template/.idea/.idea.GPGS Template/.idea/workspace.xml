@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d3a1e4b7-d1e9-43f5-aec0-f8afa40b7378" name="Changes" comment="" />
+    <list default="true" id="d3a1e4b7-d1e9-43f5-aec0-f8afa40b7378" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.GPGS Template/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GPGS Template/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -11,6 +13,8 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/21/81529046/PlayerPrefs.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/GPGS Files/Animations/LoadingAnim.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/GPGS Files/Animations/SavingAnim.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Fahim Kamal/Documents/Unity Projects/Unity_GPGS_Template/GPGS Template/Assets/GPGS Files/Scripts/Prefs test/FileHandler.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/FileHandlerTwo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/GPGS Files/Scripts/Prefs test/LoginFailed.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/GPGSIds.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.textmeshpro@3.0.6/Scripts/Runtime/TMP_InputField.cs" root0="SKIP_HIGHLIGHTING" />
@@ -105,6 +109,7 @@
       <workItem from="1677047153080" duration="2004000" />
       <workItem from="1677244398914" duration="4106000" />
       <workItem from="1677307444507" duration="8215000" />
+      <workItem from="1678007507647" duration="2485000" />
     </task>
     <servers />
   </component>
