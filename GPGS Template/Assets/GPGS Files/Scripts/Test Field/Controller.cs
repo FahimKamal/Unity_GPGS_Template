@@ -118,18 +118,18 @@ public class Controller : MonoBehaviour
 
     public void LocalSave()
     {
-        FileHandler.SetInt("IntVal", mRandomInt);
-        FileHandler.SetFloat("FloatVal", mRandomFloat);
-        FileHandler.SetString("StringVal", mRandomString);
+        SaveGameManager.Instance.SetInt("IntVal", mRandomInt);
+        SaveGameManager.Instance.SetFloat("FloatVal", mRandomFloat);
+        SaveGameManager.Instance.SetString("StringVal", mRandomString);
 
         description.text = "Value saved";
     }
 
     public void LocalLoad()
     {
-        mRandomInt = FileHandler.GetInt("IntVal", 0);
-        mRandomFloat = FileHandler.GetFloat("FloatVal", 0);
-        mRandomString = FileHandler.GetString("StringVal");
+        mRandomInt = SaveGameManager.Instance.GetInt("IntVal", 0);
+        mRandomFloat = SaveGameManager.Instance.GetFloat("FloatVal", 0);
+        mRandomString = SaveGameManager.Instance.GetString("StringVal");
         
         description.text = "Int value: " + mRandomInt + "\n" +
                            "Float value: " + mRandomFloat + "\n" +

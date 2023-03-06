@@ -212,7 +212,8 @@ public class PlayServiceManager : MonoBehaviour
                     return;
                 }
                 // Todo:  Load game data from local storage
-                var storage = FileHandler.Load();
+                // var storage = FileHandler.Load();
+                var storage = SaveGameManager.Instance.Storage;
         
                 fsData serializedData;
                 var serializer = new fsSerializer();
@@ -262,14 +263,9 @@ public class PlayServiceManager : MonoBehaviour
                 serializer.TryDeserialize(converted, typeof(GameDataClass), ref deserialized).AssertSuccessWithoutWarnings();
 
                 var storage = deserialized as GameDataClass;
-                FileHandler.Save(storage);
-                
-                
-                // var file = new StreamWriter(FileHandler.FileName);
-                //
-                // file.WriteLine(loadedData);
-                // file.Close();
-                
+                // FileHandler.Save(storage);
+                SaveGameManager.Instance.Save(storage);
+
                 PopupManager.Instance.ShowPopup("Data downloaded from cloud and saved to disk.", onlyLog:true);
                 onDataLoaded?.Invoke();
             }

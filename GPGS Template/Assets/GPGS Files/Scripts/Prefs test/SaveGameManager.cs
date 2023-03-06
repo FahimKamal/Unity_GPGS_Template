@@ -1,14 +1,19 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
-public class FileHandlerTwo : MonoBehaviour
+/// <summary>
+/// This class works same as Unity's default PlayerPrefs class. You can save bool, int,
+/// float and string data with a string key. You can also make it run time only. While
+/// in run time mode class will temporary save data in ran and after closing the game
+/// all data will be lost. Otherwise this class will save data in a json file.
+/// </summary>
+public class SaveGameManager : MonoBehaviour
 {
     #region Singleton
 
-    public static FileHandlerTwo Instance;
+    public static SaveGameManager Instance;
 
     private void Awake()
     {
@@ -19,27 +24,23 @@ public class FileHandlerTwo : MonoBehaviour
         }
 
         Instance = this;
+        mFileName = Path.Combine(Application.persistentDataPath, "GameData.json");
         DontDestroyOnLoad(gameObject);
     }
 
     #endregion
-    
-    public static readonly string FileName = Path.Combine(Application.persistentDataPath, "GameData.json");
 
+    private string mFileName;
+
+    [Tooltip("If active Game will save game data while playing. After restarting the game all data will be lost.")]
     [SerializeField] private bool runtimeOnly;
 
-    public GameDataClass storage;
+
+    public GameDataClass Storage { get; private set; }
 
     private void Start()
     {
-        if (runtimeOnly)
-        {
-            storage = new GameDataClass();
-        }
-        else
-        {
-            storage = Load();
-        }
+        Storage = runtimeOnly ? new GameDataClass() : Load();
     }
 
     #region Check methods
@@ -48,9 +49,9 @@ public class FileHandlerTwo : MonoBehaviour
     /// Return TRUE if the file exists.
     /// </summary>
     /// <returns></returns>
-    public static bool FileExists()
+    private bool FileExists()
     {
-        return File.Exists(FileName);
+        return File.Exists(mFileName);
     }
 
     /// <summary>
@@ -58,21 +59,20 @@ public class FileHandlerTwo : MonoBehaviour
     /// </summary>
     /// <param name="type"></param>
     /// <param name="key"></param>
-    /// <param name="storage"></param>
     /// <returns></returns>
     private bool KeyExists(DataType type, string key)
     {
-        if (storage == null) return false;
+        if (Storage == null) return false;
         switch (type)
         {
             case DataType.Boolean:
-                return storage.boolData.ContainsKey(key);
+                return Storage.boolData.ContainsKey(key);
             case DataType.Integer:
-                return storage.intData.ContainsKey(key);
+                return Storage.intData.ContainsKey(key);
             case DataType.Float:
-                return storage.floatData.ContainsKey(key);
+                return Storage.floatData.ContainsKey(key);
             case DataType.String:
-                return storage.stringData.ContainsKey(key);
+                return Storage.stringData.ContainsKey(key);
             default:
                 throw new ArgumentOutOfRangeException(nameof(type), type, null);
         }
@@ -85,18 +85,18 @@ public class FileHandlerTwo : MonoBehaviour
     /// Load data from storage.
     /// </summary>
     /// <returns></returns>
-    public GameDataClass Load()
+    private GameDataClass Load()
     {
         // If the file doesn't exist, the method just returns false. A warning message is written into the Error property.
         if (!FileExists())
         {
-            PopupManager.Instance.ShowPopup("The file " + FileName + " doesn't exist.", onlyLog:true);
+            PopupManager.Instance.ShowPopup("The file " + mFileName + " doesn't exist.", onlyLog:true);
             return new GameDataClass();
         }
 
         try
         {
-            return LoadJsonFile<GameDataClass>(FileName);
+            return LoadJsonFile<GameDataClass>(mFileName);
         }
         catch (Exception e)
         {
@@ -105,17 +105,32 @@ public class FileHandlerTwo : MonoBehaviour
         }
 
     }
-    
+
     /// <summary>
     /// Save the data into storage.
     /// </summary>
-    /// <param name="storage"></param>
     /// <returns></returns>
-    public bool Save()
+    public bool Save(GameDataClass cloudData = null)
     {
+        if (runtimeOnly)
+        {
+            PopupManager.Instance.ShowPopup("Runtime mode active, not saving to disk.");
+            
+            if (cloudData == null) return true;
+            
+            Storage = cloudData;
+            PopupManager.Instance.ShowPopup("Game data from cloud is stored in RAM.");
+            return true;
+        }
         try
         {
-            SaveJsonFile(FileName, storage);
+            if (cloudData != null)
+            {
+                SaveJsonFile(mFileName, cloudData);
+                PopupManager.Instance.ShowPopup("Game data from cloud is stored in disk.");    
+                return true;
+            }
+            SaveJsonFile(mFileName, Storage);
             return true;
         }
         catch (Exception e)
@@ -137,9 +152,9 @@ public class FileHandlerTwo : MonoBehaviour
     {
         //var storage = Load();
         if (KeyExists(DataType.Boolean, key))
-            storage.boolData[key] = value;
+            Storage.boolData[key] = value;
         else
-            storage.boolData.Add(key, value);
+            Storage.boolData.Add(key, value);
         
         Save();
     }
@@ -153,9 +168,9 @@ public class FileHandlerTwo : MonoBehaviour
     {
         //var storage = Load();
         if (KeyExists(DataType.Integer, key))
-            storage.intData[key] = value;
+            Storage.intData[key] = value;
         else
-            storage.intData.Add(key, value);
+            Storage.intData.Add(key, value);
         
         Save();
     }
@@ -169,9 +184,9 @@ public class FileHandlerTwo : MonoBehaviour
     {
         //var storage = Load();
         if (KeyExists(DataType.Float, key))
-            storage.floatData[key] = value;
+            Storage.floatData[key] = value;
         else
-            storage.floatData.Add(key, value);
+            Storage.floatData.Add(key, value);
         
         Save();
     }
@@ -185,9 +200,9 @@ public class FileHandlerTwo : MonoBehaviour
     {
         //var storage = Load();
         if (KeyExists(DataType.String, key))
-            storage.stringData[key] = value;
+            Storage.stringData[key] = value;
         else
-            storage.stringData.Add(key, value);
+            Storage.stringData.Add(key, value);
         
         Save();
     }
@@ -203,11 +218,11 @@ public class FileHandlerTwo : MonoBehaviour
         //var storage = Load();
         try
         {
-            return KeyExists(DataType.Boolean, key) ? storage.boolData[key] : defaultValue;
+            return KeyExists(DataType.Boolean, key) ? Storage.boolData[key] : defaultValue;
         }
         catch (Exception)
         {
-            Debug.Log("GetBool error using key: " + key);
+            PopupManager.Instance.ShowPopup("GetBool error using key: " + key);
             return defaultValue;
         }
     }
@@ -223,11 +238,11 @@ public class FileHandlerTwo : MonoBehaviour
         //var storage = Load();
         try
         {
-            return KeyExists(DataType.Integer,key) ? storage.intData[key] : defaultValue;
+            return KeyExists(DataType.Integer,key) ? Storage.intData[key] : defaultValue;
         }
         catch (Exception)
         {
-            Debug.Log("GetInt error using key: " + key);
+            PopupManager.Instance.ShowPopup("GetInt error using key: " + key);
             return defaultValue;
         }
     }
@@ -243,11 +258,11 @@ public class FileHandlerTwo : MonoBehaviour
         //var storage = Load();
         try
         {
-            return KeyExists(DataType.Float ,key) ? storage.floatData[key] : defaultValue;
+            return KeyExists(DataType.Float ,key) ? Storage.floatData[key] : defaultValue;
         }
         catch (Exception)
         {
-            Debug.Log("GetFloat error using key: " + key);
+            PopupManager.Instance.ShowPopup("GetFloat error using key: " + key);
             return defaultValue;
         }
     }
@@ -263,11 +278,11 @@ public class FileHandlerTwo : MonoBehaviour
         //var storage = Load();
         try
         {
-            return KeyExists(DataType.String, key) ? storage.stringData[key] : defaultValue;
+            return KeyExists(DataType.String, key) ? Storage.stringData[key] : defaultValue;
         }
         catch (Exception)
         {
-            Debug.Log("GetString error using key: " + key);
+            PopupManager.Instance.ShowPopup("GetString error using key: " + key);
             return defaultValue;
         }
     }
@@ -282,7 +297,7 @@ public class FileHandlerTwo : MonoBehaviour
     /// <param name="path">The path to the json file.</param>
     /// <param name="data">The data to save.</param>
     /// <typeparam name="T">The type of the data to serialize to the file.</typeparam>
-    public void SaveJsonFile<T>(string path, T data) where T : class
+    private static void SaveJsonFile<T>(string path, T data) where T : class
     {
         fsData serializedData;
         var serializer = new fsSerializer();
@@ -299,12 +314,12 @@ public class FileHandlerTwo : MonoBehaviour
     /// <param name="path">The path to the json file.</param>
     /// <typeparam name="T">The type of the data to which to deserialize the file to.</typeparam>
     /// <returns></returns>
-    public T LoadJsonFile<T>(string path) where T : class
+    private static T LoadJsonFile<T>(string path) where T : class
     {
         if (!File.Exists(path))
         {
-            Debug.LogError("File not found at path: " + path);
-            Debug.Log("Creating new file at path: " + path);
+            PopupManager.Instance.ShowPopup("File not found at path: " + path);
+            PopupManager.Instance.ShowPopup("Creating new file at path: " + path);
             //InitData();
         }
 

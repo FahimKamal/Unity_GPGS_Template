@@ -68,7 +68,7 @@ public class PopupManager : MonoBehaviour
     /// <param name="description">Description of your message.</param>
     /// <param name="title">Title of Popup.</param>
     /// <param name="onlyLog">Set true if you only want to print log.</param>
-    public void ShowPopup(string description,string title = "Popup", bool onlyLog = false)
+    public void ShowPopup(string description,string title = "Popup", bool onlyLog = true)
     {
         Debug.Log(description);
         if (useLog) LogDisplayManager.Instance.Log(description);
