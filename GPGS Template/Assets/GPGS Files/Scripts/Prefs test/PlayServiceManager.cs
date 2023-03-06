@@ -8,12 +8,25 @@ using UnityEngine;
 
 public class PlayServiceManager : MonoBehaviour
 {
+    [Tooltip("If True, Methods will not be called")]
+    public bool editorMode;
+    
     #region Singleton
 
     public static PlayServiceManager Instance;
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
-    [Tooltip("If True, Methods will not be called")]
-    public bool editorMode;
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
+    #endregion
     
     #region Variables
 
@@ -59,21 +72,6 @@ public class PlayServiceManager : MonoBehaviour
     
     
     private bool mMIsSaving;
-
-    #endregion
-
-
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
 
     #endregion
 
