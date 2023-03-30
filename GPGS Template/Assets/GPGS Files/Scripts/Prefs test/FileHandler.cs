@@ -1,7 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using Unity.VisualScripting.FullSerializer;
+using FullSerializer;
 using UnityEngine;
 
 public static class FileHandler
@@ -290,31 +289,3 @@ public static class FileHandler
     
 }
 
-#region DataType
-
-public enum DataType
-{
-    Boolean,
-    Integer,
-    Float,
-    String
-}
-
-[Serializable]
-public class GameDataClass
-{
-    public Dictionary<string, bool> boolData;
-    public Dictionary<string, int> intData;
-    public Dictionary<string, float> floatData;
-    public Dictionary<string, string> stringData;
-
-    public GameDataClass()
-    {
-        boolData = new Dictionary<string, bool>();
-        intData = new Dictionary<string, int>();
-        floatData = new Dictionary<string, float>();
-        stringData = new Dictionary<string, string>();
-    }
-}
-
-#endregion

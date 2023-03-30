@@ -1,16 +1,92 @@
 using System;
 using System.IO;
-using Unity.VisualScripting.FullSerializer;
+using FullSerializer;
 using UnityEngine;
 
 /// <summary>
-/// This class works same as Unity's default PlayerPrefs class. You can save bool, int,
-/// float and string data with a string key. You can also make it run time only. While
-/// in run time mode class will temporary save data in ran and after closing the game
-/// all data will be lost. Otherwise this class will save data in a json file.
+///     This class works same as Unity's default PlayerPrefs class. You can save bool, int,
+///     float and string data with a string key. You can also make it run time only. While
+///     in run time mode class will temporary save data in ran and after closing the game
+///     all data will be lost. Otherwise this class will save data in a json file.
 /// </summary>
 public class SaveGameManager : MonoBehaviour
 {
+    [Tooltip("If active Game will save game data while playing. After restarting the game all data will be lost.")]
+    [SerializeField]
+    private bool runtimeOnly;
+
+    private string mFileName;
+
+
+    public GameDataClass Storage { get; private set; }
+
+    private void Start()
+    {
+    }
+
+
+    /// <summary>
+    ///     Load data from storage.
+    /// </summary>
+    /// <returns></returns>
+    private GameDataClass Load()
+    {
+        // If the file doesn't exist, the method just returns false. A warning message is written into the Error property.
+        if (!FileExists())
+        {
+            PopupManager.Instance.ShowPopup("The file " + mFileName + " doesn't exist.", onlyLog: true);
+            return new GameDataClass();
+        }
+
+        try
+        {
+            return LoadJsonFile<GameDataClass>(mFileName);
+        }
+        catch (Exception e)
+        {
+            PopupManager.Instance.ShowPopup("This system exception has been thrown during loading: " + e.Message,
+                onlyLog: true);
+            throw;
+        }
+    }
+
+    /// <summary>
+    ///     Save the data into storage.
+    /// </summary>
+    /// <returns></returns>
+    public bool Save(GameDataClass cloudData = null)
+    {
+        if (runtimeOnly)
+        {
+            PopupManager.Instance.ShowPopup("Runtime mode active, not saving to disk.");
+
+            if (cloudData == null) return true;
+
+            Storage = cloudData;
+            PopupManager.Instance.ShowPopup("Game data from cloud is stored in RAM.");
+            return true;
+        }
+
+        try
+        {
+            if (cloudData != null)
+            {
+                SaveJsonFile(mFileName, cloudData);
+                PopupManager.Instance.ShowPopup("Game data from cloud is stored in disk.");
+                return true;
+            }
+
+            SaveJsonFile(mFileName, Storage);
+            return true;
+        }
+        catch (Exception e)
+        {
+            PopupManager.Instance.ShowPopup("This system exception has been thrown during saving: " + e.Message,
+                onlyLog: true);
+            return false;
+        }
+    }
+
     #region Singleton
 
     public static SaveGameManager Instance;
@@ -25,28 +101,16 @@ public class SaveGameManager : MonoBehaviour
 
         Instance = this;
         mFileName = Path.Combine(Application.persistentDataPath, "GameData.json");
+        Storage = runtimeOnly ? new GameDataClass() : Load();
         DontDestroyOnLoad(gameObject);
     }
 
     #endregion
 
-    private string mFileName;
-
-    [Tooltip("If active Game will save game data while playing. After restarting the game all data will be lost.")]
-    [SerializeField] private bool runtimeOnly;
-
-
-    public GameDataClass Storage { get; private set; }
-
-    private void Start()
-    {
-        Storage = runtimeOnly ? new GameDataClass() : Load();
-    }
-
     #region Check methods
 
     /// <summary>
-    /// Return TRUE if the file exists.
+    ///     Return TRUE if the file exists.
     /// </summary>
     /// <returns></returns>
     private bool FileExists()
@@ -55,12 +119,12 @@ public class SaveGameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Checks if a key exists in the storage or not.
+    ///     Checks if a key exists in the storage or not.
     /// </summary>
-    /// <param name="type"></param>
     /// <param name="key"></param>
+    /// <param name="type"></param>
     /// <returns></returns>
-    private bool KeyExists(DataType type, string key)
+    public bool HasKey(string key, DataType type = DataType.All)
     {
         if (Storage == null) return false;
         switch (type)
@@ -73,142 +137,95 @@ public class SaveGameManager : MonoBehaviour
                 return Storage.floatData.ContainsKey(key);
             case DataType.String:
                 return Storage.stringData.ContainsKey(key);
+            case DataType.All:
+                return Storage.boolData.ContainsKey(key) || Storage.intData.ContainsKey(key) ||
+                       Storage.floatData.ContainsKey(key) || Storage.stringData.ContainsKey(key);
             default:
                 throw new ArgumentOutOfRangeException(nameof(type), type, null);
         }
     }
 
+    public void DeleteKey(string key)
+    {
+        if (HasKey(key, DataType.Boolean))
+            Storage.boolData.Remove(key);
+        else if (HasKey(key, DataType.Float))
+            Storage.floatData.Remove(key);
+        else if (HasKey(key, DataType.Integer))
+            Storage.intData.Remove(key);
+        else if (HasKey(key, DataType.String)) Storage.stringData.Remove(key);
+    }
+
     #endregion
-    
-    
-    /// <summary>
-    /// Load data from storage.
-    /// </summary>
-    /// <returns></returns>
-    private GameDataClass Load()
-    {
-        // If the file doesn't exist, the method just returns false. A warning message is written into the Error property.
-        if (!FileExists())
-        {
-            PopupManager.Instance.ShowPopup("The file " + mFileName + " doesn't exist.", onlyLog:true);
-            return new GameDataClass();
-        }
-
-        try
-        {
-            return LoadJsonFile<GameDataClass>(mFileName);
-        }
-        catch (Exception e)
-        {
-            PopupManager.Instance.ShowPopup("This system exception has been thrown during loading: " + e.Message, onlyLog:true);
-            throw;
-        }
-
-    }
-
-    /// <summary>
-    /// Save the data into storage.
-    /// </summary>
-    /// <returns></returns>
-    public bool Save(GameDataClass cloudData = null)
-    {
-        if (runtimeOnly)
-        {
-            PopupManager.Instance.ShowPopup("Runtime mode active, not saving to disk.");
-            
-            if (cloudData == null) return true;
-            
-            Storage = cloudData;
-            PopupManager.Instance.ShowPopup("Game data from cloud is stored in RAM.");
-            return true;
-        }
-        try
-        {
-            if (cloudData != null)
-            {
-                SaveJsonFile(mFileName, cloudData);
-                PopupManager.Instance.ShowPopup("Game data from cloud is stored in disk.");    
-                return true;
-            }
-            SaveJsonFile(mFileName, Storage);
-            return true;
-        }
-        catch (Exception e)
-        {
-            PopupManager.Instance.ShowPopup("This system exception has been thrown during saving: " + e.Message, onlyLog:true);
-            return false;
-        }
-            
-    }
 
     #region Set/Get data from Storage
 
     /// <summary>
-    /// Adds Boolean data in storage 
+    ///     Adds Boolean data in storage
     /// </summary>
     /// <param name="key"></param>
     /// <param name="value"></param>
     public void SetBool(string key, bool value)
     {
         //var storage = Load();
-        if (KeyExists(DataType.Boolean, key))
+        if (HasKey(key, DataType.Boolean))
             Storage.boolData[key] = value;
         else
             Storage.boolData.Add(key, value);
-        
+
         Save();
     }
-    
+
     /// <summary>
-    /// Adds Integer data in storage 
+    ///     Adds Integer data in storage
     /// </summary>
     /// <param name="key"></param>
     /// <param name="value"></param>
     public void SetInt(string key, int value)
     {
         //var storage = Load();
-        if (KeyExists(DataType.Integer, key))
+        if (HasKey(key, DataType.Integer))
             Storage.intData[key] = value;
         else
             Storage.intData.Add(key, value);
-        
+
         Save();
     }
-    
+
     /// <summary>
-    /// Adds Float data in storage 
+    ///     Adds Float data in storage
     /// </summary>
     /// <param name="key"></param>
     /// <param name="value"></param>
     public void SetFloat(string key, float value)
     {
         //var storage = Load();
-        if (KeyExists(DataType.Float, key))
+        if (HasKey(key, DataType.Float))
             Storage.floatData[key] = value;
         else
             Storage.floatData.Add(key, value);
-        
+
         Save();
     }
-    
+
     /// <summary>
-    /// Adds Integer data in storage 
+    ///     Adds Integer data in storage
     /// </summary>
     /// <param name="key"></param>
     /// <param name="value"></param>
     public void SetString(string key, string value)
     {
         //var storage = Load();
-        if (KeyExists(DataType.String, key))
+        if (HasKey(key, DataType.String))
             Storage.stringData[key] = value;
         else
             Storage.stringData.Add(key, value);
-        
+
         Save();
     }
 
     /// <summary>
-    /// Return the boolean data for the given key (or the defined defaultValue if nothing found).
+    ///     Return the boolean data for the given key (or the defined defaultValue if nothing found).
     /// </summary>
     /// <param name="key">The key to search in storage.</param>
     /// <param name="defaultValue">If key doesn't exists, return this default value.</param>
@@ -218,7 +235,7 @@ public class SaveGameManager : MonoBehaviour
         //var storage = Load();
         try
         {
-            return KeyExists(DataType.Boolean, key) ? Storage.boolData[key] : defaultValue;
+            return HasKey(key, DataType.Boolean) ? Storage.boolData[key] : defaultValue;
         }
         catch (Exception)
         {
@@ -226,9 +243,9 @@ public class SaveGameManager : MonoBehaviour
             return defaultValue;
         }
     }
-    
+
     /// <summary>
-    /// Return the integer data for the given key (or the defined defaultValue if nothing found).
+    ///     Return the integer data for the given key (or the defined defaultValue if nothing found).
     /// </summary>
     /// <param name="key">The key to search in storage.</param>
     /// <param name="defaultValue">If key doesn't exists, return this default value.</param>
@@ -238,7 +255,7 @@ public class SaveGameManager : MonoBehaviour
         //var storage = Load();
         try
         {
-            return KeyExists(DataType.Integer,key) ? Storage.intData[key] : defaultValue;
+            return HasKey(key, DataType.Integer) ? Storage.intData[key] : defaultValue;
         }
         catch (Exception)
         {
@@ -246,9 +263,9 @@ public class SaveGameManager : MonoBehaviour
             return defaultValue;
         }
     }
-    
+
     /// <summary>
-    /// Return the float data for the given key (or the defined defaultValue if nothing found).
+    ///     Return the float data for the given key (or the defined defaultValue if nothing found).
     /// </summary>
     /// <param name="key">The key to search in storage.</param>
     /// <param name="defaultValue">If key doesn't exists, return this default value.</param>
@@ -258,7 +275,7 @@ public class SaveGameManager : MonoBehaviour
         //var storage = Load();
         try
         {
-            return KeyExists(DataType.Float ,key) ? Storage.floatData[key] : defaultValue;
+            return HasKey(key, DataType.Float) ? Storage.floatData[key] : defaultValue;
         }
         catch (Exception)
         {
@@ -268,7 +285,7 @@ public class SaveGameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Return the string data for the given key (or the defined defaultValue if nothing found).
+    ///     Return the string data for the given key (or the defined defaultValue if nothing found).
     /// </summary>
     /// <param name="key">The key to search in storage.</param>
     /// <param name="defaultValue">If key doesn't exists, return this default value.</param>
@@ -278,7 +295,7 @@ public class SaveGameManager : MonoBehaviour
         //var storage = Load();
         try
         {
-            return KeyExists(DataType.String, key) ? Storage.stringData[key] : defaultValue;
+            return HasKey(key, DataType.String) ? Storage.stringData[key] : defaultValue;
         }
         catch (Exception)
         {
@@ -287,12 +304,18 @@ public class SaveGameManager : MonoBehaviour
         }
     }
 
+    public void DeleteAll()
+    {
+        Storage = new GameDataClass();
+        Save();
+    }
+
     #endregion
 
     #region Read/Write data to disk
 
     /// <summary>
-    /// Saves the specified data to a json file at the specified path.
+    ///     Saves the specified data to a json file at the specified path.
     /// </summary>
     /// <param name="path">The path to the json file.</param>
     /// <param name="data">The data to save.</param>
@@ -307,9 +330,9 @@ public class SaveGameManager : MonoBehaviour
         file.WriteLine(json);
         file.Close();
     }
-    
+
     /// <summary>
-    /// Loads the json file at the specified path.
+    ///     Loads the json file at the specified path.
     /// </summary>
     /// <param name="path">The path to the json file.</param>
     /// <typeparam name="T">The type of the data to which to deserialize the file to.</typeparam>
@@ -330,11 +353,9 @@ public class SaveGameManager : MonoBehaviour
         var serializer = new fsSerializer();
         serializer.TryDeserialize(data, typeof(T), ref deserialized).AssertSuccessWithoutWarnings();
         file.Close();
-        
+
         return deserialized as T;
     }
 
     #endregion
-   
-    
 }
